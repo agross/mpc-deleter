@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MpcDelete.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MpcPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Tools\Media Player Classic\mplayerc.exe</Value>
+    </Setting>
+    <Setting Name="LircServer" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="LircPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">8765</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
