@@ -101,7 +101,7 @@
 			this.Controls.Add(this.btnPlayPause);
 			this.Controls.Add(this.btnStartMpc);
 			this.Name = "MainForm";
-			this.Text = "MainForm";
+			this.Text = "Media Player Classic Deleter";
 			this.ResumeLayout(false);
 
 		}
