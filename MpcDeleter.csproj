@@ -8,8 +8,8 @@
     <ProjectGuid>{1C527B4B-DD82-4445-B372-DBEC519A1849}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MpcDelete</RootNamespace>
-    <AssemblyName>MpcDelete</AssemblyName>
+    <RootNamespace>MpcDeleter</RootNamespace>
+    <AssemblyName>MpcDeleter</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -68,12 +68,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MpcDeleterApplicationContext.cs" />
     <Compile Include="WindowMessageEventArgs.cs" />
     <Compile Include="MpcMessageHandlers\AbstractMpcMessageHandler.cs" />
     <Compile Include="MpcMessageHandlers\ConnectHandler.cs" />
     <Compile Include="MpcMessageHandlers\IMessageHandler.cs" />
     <Compile Include="MpcMessageHandlers\NowPlayingMessageHandler.cs" />
-    <Compile Include="MpcDeleterApplicationContext.cs" />
     <Compile Include="NativeConstants.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="PlayerContext.cs" />
