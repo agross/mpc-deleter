@@ -61,6 +61,8 @@
     <Compile Include="LircClient.cs" />
     <Compile Include="LircKeyHandlers\ILircKeyHandler.cs" />
     <Compile Include="LircKeyHandlers\ShiftKeyHandler.cs" />
+    <Compile Include="LircKeyHandlers\SomeKeyHandler.cs" />
+    <Compile Include="LircKeyHandlers\TimedKeyHandler.cs" />
     <Compile Include="MessageEventArgs.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
