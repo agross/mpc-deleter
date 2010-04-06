@@ -12,12 +12,15 @@ namespace MpcDeleter
 	internal class MpcDeleterApplicationContext : ApplicationContext, IContext
 	{
 		readonly PlayerContext _player = new PlayerContext();
+		RegexBasedArchivePathSelector _archivePathSelector;
 		LircClient _lirc;
 		MessageProcessingWindow _messageExchange;
 
 		public MpcDeleterApplicationContext()
 		{
-			MainForm = new MainForm(this, new RegexBasedArchivePathSelector());
+			LoadSettings();
+			
+			MainForm = new MainForm(this, _archivePathSelector);
 
 			SetUpLirc();
 			SetUpMessageExchange();
@@ -62,6 +65,14 @@ namespace MpcDeleter
 			{
 				@event(this, new MessageEventArgs(String.Format(message, args)));
 			}
+		}
+
+		void LoadSettings()
+		{
+			ApplicationSettings.Load();
+
+			_archivePathSelector = new RegexBasedArchivePathSelector(Settings.Default.DefaultArchivePath,
+			                                                         ApplicationSettings.ArchivePathOverrides);
 		}
 
 		void SetUpLirc()

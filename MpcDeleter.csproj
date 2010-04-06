@@ -37,19 +37,14 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSettings.cs" />
     <Compile Include="Commands\ArchiveCurrentFileCommand.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +55,7 @@
     <Compile Include="Commands\PlayPauseCommand.cs" />
     <Compile Include="Commands\SendMessageCommand.cs" />
     <Compile Include="Commands\StartMpcCommand.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IArchivePathSelector.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="LircClient.cs" />
