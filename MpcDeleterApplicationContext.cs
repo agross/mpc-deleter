@@ -17,7 +17,7 @@ namespace MpcDeleter
 
 		public MpcDeleterApplicationContext()
 		{
-			MainForm = new MainForm(this);
+			MainForm = new MainForm(this, new RegexBasedArchivePathSelector());
 
 			SetUpLirc();
 			SetUpMessageExchange();

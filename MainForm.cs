@@ -9,12 +9,14 @@ namespace MpcDeleter
 	public partial class MainForm : Form
 	{
 		readonly IContext _context;
+		IArchivePathSelector _pathSelector;
 
-		public MainForm(IContext context)
+		public MainForm(IContext context, IArchivePathSelector pathSelector)
 		{
 			InitializeComponent();
 
 			_context = context;
+			_pathSelector = pathSelector;
 			_context.LogMessage += (s, e) => SynchronizationContext.Current.Send(x =>
 				{
 					var addedIndex = lbxEvents.Items.Add(e.Message);
@@ -25,22 +27,31 @@ namespace MpcDeleter
 
 		void btnStartMpc_Click(object sender, EventArgs e)
 		{
-			_context.Execute(new StartMpcCommand());
+			Execute(new StartMpcCommand());
 		}
 
 		void btnPlayPause_Click(object sender, EventArgs e)
 		{
-			_context.Execute(new PlayPauseCommand());
+			Execute(new PlayPauseCommand());
 		}
 
 		void btnDeleteCurrent_Click(object sender, EventArgs e)
 		{
-			_context.Execute(new DeleteCurrentFileCommand(false));
+			var command = new DeleteCurrentFileCommand(chkWhatIf.Checked);
+
+			Execute(command);
 		}
 
-		void btnDeleteCurrentWhatIf_Click(object sender, EventArgs e)
+		void btnArchiveCurrent_Click(object sender, EventArgs e)
 		{
-			_context.Execute(new DeleteCurrentFileCommand(true));
+			var command = new ArchiveCurrentFileCommand(_pathSelector, chkWhatIf.Checked);
+
+			Execute(command);
+		}
+
+		void Execute(ICommand command)
+		{
+			_context.Execute(command);
 		}
 	}
 }

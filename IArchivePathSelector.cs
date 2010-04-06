@@ -1,6 +1,6 @@
 ﻿namespace MpcDeleter
 {
-	internal interface IArchivePathSelector
+	public interface IArchivePathSelector
 	{
 		string GetArchivePathFor(string file);
 	}

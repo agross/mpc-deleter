@@ -73,6 +73,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MpcDeleterApplicationContext.cs" />
+    <Compile Include="RegexBasedArchivePathSelector.cs" />
     <Compile Include="WindowMessageEventArgs.cs" />
     <Compile Include="MpcMessageHandlers\AbstractMpcMessageHandler.cs" />
     <Compile Include="MpcMessageHandlers\ConnectHandler.cs" />
