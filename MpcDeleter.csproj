@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ArchiveCurrentFileCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
     <Compile Include="Commands\FindMessageExchangeCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="Commands\PlayPauseCommand.cs" />
     <Compile Include="Commands\SendMessageCommand.cs" />
     <Compile Include="Commands\StartMpcCommand.cs" />
+    <Compile Include="IArchivePathSelector.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="LircClient.cs" />
     <Compile Include="LircKeyHandlers\ILircKeyHandler.cs" />
