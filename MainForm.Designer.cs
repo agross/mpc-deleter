@@ -50,7 +50,7 @@
 			// 
 			this.btnPlayPause.Location = new System.Drawing.Point(93, 11);
 			this.btnPlayPause.Name = "btnPlayPause";
-			this.btnPlayPause.Size = new System.Drawing.Size(90, 23);
+			this.btnPlayPause.Size = new System.Drawing.Size(72, 23);
 			this.btnPlayPause.TabIndex = 4;
 			this.btnPlayPause.Text = "Play/Pause";
 			this.btnPlayPause.UseVisualStyleBackColor = true;
@@ -62,6 +62,7 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.lbxEvents.FormattingEnabled = true;
+			this.lbxEvents.HorizontalScrollbar = true;
 			this.lbxEvents.Location = new System.Drawing.Point(12, 40);
 			this.lbxEvents.Name = "lbxEvents";
 			this.lbxEvents.Size = new System.Drawing.Size(430, 264);
@@ -70,7 +71,7 @@
 			// btnDeleteCurrent
 			// 
 			this.btnDeleteCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnDeleteCurrent.Location = new System.Drawing.Point(256, 12);
+			this.btnDeleteCurrent.Location = new System.Drawing.Point(235, 12);
 			this.btnDeleteCurrent.Name = "btnDeleteCurrent";
 			this.btnDeleteCurrent.Size = new System.Drawing.Size(90, 23);
 			this.btnDeleteCurrent.TabIndex = 4;
@@ -81,9 +82,9 @@
 			// btnArchiveCurrent
 			// 
 			this.btnArchiveCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnArchiveCurrent.Location = new System.Drawing.Point(352, 12);
+			this.btnArchiveCurrent.Location = new System.Drawing.Point(331, 12);
 			this.btnArchiveCurrent.Name = "btnArchiveCurrent";
-			this.btnArchiveCurrent.Size = new System.Drawing.Size(90, 23);
+			this.btnArchiveCurrent.Size = new System.Drawing.Size(111, 23);
 			this.btnArchiveCurrent.TabIndex = 6;
 			this.btnArchiveCurrent.Text = "Archive Current";
 			this.btnArchiveCurrent.UseVisualStyleBackColor = true;
@@ -95,7 +96,7 @@
 			this.chkWhatIf.AutoSize = true;
 			this.chkWhatIf.Checked = true;
 			this.chkWhatIf.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkWhatIf.Location = new System.Drawing.Point(192, 16);
+			this.chkWhatIf.Location = new System.Drawing.Point(171, 16);
 			this.chkWhatIf.Name = "chkWhatIf";
 			this.chkWhatIf.Size = new System.Drawing.Size(58, 17);
 			this.chkWhatIf.TabIndex = 7;
