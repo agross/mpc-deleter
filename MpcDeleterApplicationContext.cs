@@ -77,7 +77,7 @@ namespace MpcDeleter
 
 		void SetUpLirc()
 		{
-			var lircKeyHandlers = new ILircKeyHandler[] { new ShiftKeyHandler(), new SomeKeyHandler(_archivePathSelector) };
+			var lircKeyHandlers = new ILircKeyHandler[] { new ShiftKeyHandler(), new SleepKeyHandler(_archivePathSelector) };
 
 			_lirc = new LircClient();
 			_lirc.KeyPressed += (s, e) =>

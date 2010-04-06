@@ -2,28 +2,28 @@ using MpcDeleter.Commands;
 
 namespace MpcDeleter.LircKeyHandlers
 {
-	internal class SomeKeyHandler : TimedKeyHandler, ILircKeyHandler
+	internal class SleepKeyHandler : TimedKeyHandler, ILircKeyHandler
 	{
-		IArchivePathSelector _archivePathSelector;
+		readonly IArchivePathSelector _archivePathSelector;
 
-		public SomeKeyHandler(IArchivePathSelector archivePathSelector)
+		public SleepKeyHandler(IArchivePathSelector archivePathSelector)
 		{
 			_archivePathSelector = archivePathSelector;
 		}
 
 		protected override string KeyName
 		{
-			get { return "Some"; }
+			get { return "Sleep"; }
 		}
 
 		public bool CanHandle(string message)
 		{
-			return message.Contains(" some ");
+			return message.Contains(" sleep ");
 		}
 
 		protected override void HandleKey(IContext context)
 		{
-			context.Log("You pressed the Some key, will now attempt to delete the current file");
+			context.Log("You pressed the Sleep key, will now attempt to archive the current file");
 			context.Execute(new ArchiveCurrentFileCommand(_archivePathSelector, false));
 		}
 	}
