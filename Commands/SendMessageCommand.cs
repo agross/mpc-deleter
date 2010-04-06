@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace MpcDelete.Commands
+namespace MpcDeleter.Commands
 {
 	internal class SendMessageCommand : ICommand
 	{

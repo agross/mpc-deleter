@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 
-using MpcDelete.Properties;
+using MpcDeleter.Properties;
 
-namespace MpcDelete.Commands
+namespace MpcDeleter.Commands
 {
 	public class StartMpcCommand : ICommand
 	{

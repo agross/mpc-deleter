@@ -1,4 +1,4 @@
-namespace MpcDelete
+namespace MpcDeleter
 {
 	public class PlayerContext
 	{

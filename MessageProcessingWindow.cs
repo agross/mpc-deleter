@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace MpcDelete
+namespace MpcDeleter
 {
 	internal sealed class MessageProcessingWindow : NativeWindow, IDisposable
 	{

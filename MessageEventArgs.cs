@@ -1,6 +1,6 @@
 using System;
 
-namespace MpcDelete
+namespace MpcDeleter
 {
 	public class MessageEventArgs : EventArgs
 	{

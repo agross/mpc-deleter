@@ -1,4 +1,4 @@
-namespace MpcDelete.LircKeyHandlers
+namespace MpcDeleter.LircKeyHandlers
 {
 	public interface ILircKeyHandler
 	{

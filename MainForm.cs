@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Windows.Forms;
 
-using MpcDelete.Commands;
+using MpcDeleter.Commands;
 
-namespace MpcDelete
+namespace MpcDeleter
 {
 	public partial class MainForm : Form
 	{

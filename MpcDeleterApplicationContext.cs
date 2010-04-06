@@ -2,12 +2,12 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 
-using MpcDelete.Commands;
-using MpcDelete.LircKeyHandlers;
-using MpcDelete.MpcMessageHandlers;
-using MpcDelete.Properties;
+using MpcDeleter.Commands;
+using MpcDeleter.LircKeyHandlers;
+using MpcDeleter.MpcMessageHandlers;
+using MpcDeleter.Properties;
 
-namespace MpcDelete
+namespace MpcDeleter
 {
 	internal class MpcDeleterApplicationContext : ApplicationContext, IContext
 	{
@@ -22,7 +22,7 @@ namespace MpcDelete
 			SetUpLirc();
 			SetUpMessageExchange();
 
-            Execute(new StartMpcCommand());          
+			Execute(new StartMpcCommand());
 
 			MainForm.Show();
 		}

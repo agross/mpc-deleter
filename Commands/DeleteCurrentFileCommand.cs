@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace MpcDelete.Commands
+namespace MpcDeleter.Commands
 {
 	internal class DeleteCurrentFileCommand : ICommand
 	{

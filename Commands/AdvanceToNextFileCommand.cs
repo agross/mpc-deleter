@@ -1,4 +1,4 @@
-namespace MpcDelete.Commands
+namespace MpcDeleter.Commands
 {
 	internal class AdvanceToNextFileCommand : ICommand
 	{

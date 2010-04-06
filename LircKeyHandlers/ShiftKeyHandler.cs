@@ -1,8 +1,8 @@
 using System;
 
-using MpcDelete.Commands;
+using MpcDeleter.Commands;
 
-namespace MpcDelete.LircKeyHandlers
+namespace MpcDeleter.LircKeyHandlers
 {
 	internal class ShiftKeyHandler : ILircKeyHandler
 	{

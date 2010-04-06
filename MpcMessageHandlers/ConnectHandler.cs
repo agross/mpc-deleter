@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace MpcDelete.MpcMessageHandlers
+namespace MpcDeleter.MpcMessageHandlers
 {
 	public class ConnectHandler : AbstractMpcMessageHandler
 	{

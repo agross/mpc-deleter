@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace MpcDelete.MpcMessageHandlers
+namespace MpcDeleter.MpcMessageHandlers
 {
 	internal class NowPlayingMessageHandler : AbstractMpcMessageHandler
 	{

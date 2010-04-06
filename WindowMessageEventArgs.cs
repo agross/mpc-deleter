@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace MpcDelete
+namespace MpcDeleter
 {
 	public class WindowMessageEventArgs : EventArgs
 	{

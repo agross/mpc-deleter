@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace MpcDelete.MpcMessageHandlers
+namespace MpcDeleter.MpcMessageHandlers
 {
 	public interface IMessageHandler
 	{

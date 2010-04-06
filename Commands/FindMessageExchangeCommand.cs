@@ -1,4 +1,4 @@
-namespace MpcDelete.Commands
+namespace MpcDeleter.Commands
 {
 	public class FindMessageExchangeCommand : ICommand
 	{

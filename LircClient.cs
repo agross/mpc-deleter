@@ -2,7 +2,7 @@ using System;
 using System.Net.Sockets;
 using System.Text;
 
-namespace MpcDelete
+namespace MpcDeleter
 {
 	public class LircClient : IDisposable
 	{

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MpcDelete.Properties
+namespace MpcDeleter.Properties
 {
 	/// <summary>
 	/// 	A strongly-typed resource class, for looking up localized strings, etc.
