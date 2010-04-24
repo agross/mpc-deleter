@@ -15,10 +15,17 @@ namespace MpcDeleter
 			private set;
 		}
 
+		public static string[] PlaylistFolders
+		{
+			get;
+			private set;
+		}
+
 		internal static void Load()
 		{
 			UpgradeSettingsToNewApplicationVersion();
 			LoadOverrides();
+			LoadPlaylistFolders();
 		}
 
 		static void UpgradeSettingsToNewApplicationVersion()
@@ -34,13 +41,19 @@ namespace MpcDeleter
 		static void LoadOverrides()
 		{
 			var deserialized = new JavaScriptSerializer().Deserialize<Override[]>(Settings.Default.ArchivePathOverrides);
-			
+
 			var overrides = new List<KeyValuePair<Regex, string>>();
 			deserialized
 				.Select(x => CreateOverride(x.Expression, x.Path))
 				.Each(overrides.Add);
 
 			ArchivePathOverrides = overrides;
+		}
+
+		static void LoadPlaylistFolders()
+		{
+			var deserialized = new JavaScriptSerializer().Deserialize<string[]>(Settings.Default.PlaylistFolders);
+			PlaylistFolders = deserialized;
 		}
 
 		internal static KeyValuePair<Regex, string> CreateOverride(string expression, string path)

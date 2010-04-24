@@ -13,6 +13,8 @@ namespace MpcDeleter
 		public static uint CMD_PLAYPAUSE = 0xA0000003;
 		public static uint CMD_SETPOSITION = 0xA0002000;
 		public static uint CMD_STOP = 0xA0000001;
+		public static uint CMD_CLEARPLAYLIST = 0xA0001001;
+		public static uint CMD_ADDTOPLAYLIST = 0xA0001000;
 		public static uint WM_COPYDATA = 0x004A;
 	}
 

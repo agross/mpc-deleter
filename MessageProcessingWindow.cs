@@ -22,6 +22,7 @@ namespace MpcDeleter
 		}
 
 		public event EventHandler<WindowMessageEventArgs> MessageReceived;
+		public event EventHandler<WindowMessageEventArgs> Connected;
 
 		protected override void WndProc(ref Message m)
 		{

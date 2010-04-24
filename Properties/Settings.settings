@@ -20,5 +20,8 @@
     <Setting Name="ArchivePathOverrides" Type="System.String" Scope="User">
       <Value Profile="(Default)">[]</Value>
     </Setting>
+    <Setting Name="PlaylistFolders" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[]</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

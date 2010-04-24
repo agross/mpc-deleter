@@ -93,7 +93,10 @@ namespace MpcDeleter
 
 		void SetUpMessageExchange()
 		{
-			var messageHandlers = new IMessageHandler[] { new ConnectHandler(), new NowPlayingMessageHandler() };
+			var connectHandler = new ConnectHandler();
+			connectHandler.Connected += (sender, e) => Execute(new AutoLoadPlaylistCommand(ApplicationSettings.PlaylistFolders));
+
+			var messageHandlers = new IMessageHandler[] { connectHandler, new NowPlayingMessageHandler() };
 
 			_messageExchange = new MessageProcessingWindow(x => x.Msg == NativeConstants.WM_COPYDATA);
 			_messageExchange.MessageReceived += (s, e) =>

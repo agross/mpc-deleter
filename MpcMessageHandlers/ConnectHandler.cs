@@ -26,6 +26,19 @@ namespace MpcDeleter.MpcMessageHandlers
 			context.InitializeConnectionToMediaPlayerClassic(new IntPtr(Int64.Parse(handle)));
 
 			context.Log("Connected to MPC at {0:X}", context.MediaPlayerClassic.ToInt64());
+
+			OnConnected();
+		}
+
+		public event EventHandler<EventArgs> Connected;
+
+		public void OnConnected()
+		{
+			EventHandler<EventArgs> handler = Connected;
+			if (handler != null)
+			{
+				handler(this, EventArgs.Empty);
+			}
 		}
 	}
 }

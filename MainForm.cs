@@ -9,7 +9,7 @@ namespace MpcDeleter
 	public partial class MainForm : Form
 	{
 		readonly IContext _context;
-		IArchivePathSelector _pathSelector;
+		readonly IArchivePathSelector _pathSelector;
 
 		public MainForm(IContext context, IArchivePathSelector pathSelector)
 		{
@@ -52,6 +52,16 @@ namespace MpcDeleter
 		void Execute(ICommand command)
 		{
 			_context.Execute(command);
+		}
+
+		void btnClearPlaylist_Click(object sender, EventArgs e)
+		{
+			Execute(new ClearPlaylistCommand());
+		}
+
+		private void btnlLoadPlaylist_Click(object sender, EventArgs e)
+		{
+			Execute(new AutoLoadPlaylistCommand(ApplicationSettings.PlaylistFolders));
 		}
 	}
 }

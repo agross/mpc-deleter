@@ -34,6 +34,8 @@
 			this.btnDeleteCurrent = new System.Windows.Forms.Button();
 			this.btnArchiveCurrent = new System.Windows.Forms.Button();
 			this.chkWhatIf = new System.Windows.Forms.CheckBox();
+			this.btnClearPlaylist = new System.Windows.Forms.Button();
+			this.btnlLoadPlaylist = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnStartMpc
@@ -65,13 +67,13 @@
 			this.lbxEvents.HorizontalScrollbar = true;
 			this.lbxEvents.Location = new System.Drawing.Point(12, 40);
 			this.lbxEvents.Name = "lbxEvents";
-			this.lbxEvents.Size = new System.Drawing.Size(430, 264);
+			this.lbxEvents.Size = new System.Drawing.Size(624, 264);
 			this.lbxEvents.TabIndex = 5;
 			// 
 			// btnDeleteCurrent
 			// 
 			this.btnDeleteCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnDeleteCurrent.Location = new System.Drawing.Point(235, 12);
+			this.btnDeleteCurrent.Location = new System.Drawing.Point(429, 12);
 			this.btnDeleteCurrent.Name = "btnDeleteCurrent";
 			this.btnDeleteCurrent.Size = new System.Drawing.Size(90, 23);
 			this.btnDeleteCurrent.TabIndex = 4;
@@ -82,7 +84,7 @@
 			// btnArchiveCurrent
 			// 
 			this.btnArchiveCurrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnArchiveCurrent.Location = new System.Drawing.Point(331, 12);
+			this.btnArchiveCurrent.Location = new System.Drawing.Point(525, 12);
 			this.btnArchiveCurrent.Name = "btnArchiveCurrent";
 			this.btnArchiveCurrent.Size = new System.Drawing.Size(111, 23);
 			this.btnArchiveCurrent.TabIndex = 6;
@@ -96,22 +98,44 @@
 			this.chkWhatIf.AutoSize = true;
 			this.chkWhatIf.Checked = true;
 			this.chkWhatIf.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkWhatIf.Location = new System.Drawing.Point(171, 16);
+			this.chkWhatIf.Location = new System.Drawing.Point(365, 16);
 			this.chkWhatIf.Name = "chkWhatIf";
 			this.chkWhatIf.Size = new System.Drawing.Size(58, 17);
 			this.chkWhatIf.TabIndex = 7;
 			this.chkWhatIf.Text = "WhatIf";
 			this.chkWhatIf.UseVisualStyleBackColor = true;
 			// 
+			// btnClearPlaylist
+			// 
+			this.btnClearPlaylist.Location = new System.Drawing.Point(259, 12);
+			this.btnClearPlaylist.Name = "btnClearPlaylist";
+			this.btnClearPlaylist.Size = new System.Drawing.Size(82, 23);
+			this.btnClearPlaylist.TabIndex = 4;
+			this.btnClearPlaylist.Text = "Clear Playlist";
+			this.btnClearPlaylist.UseVisualStyleBackColor = true;
+			this.btnClearPlaylist.Click += new System.EventHandler(this.btnClearPlaylist_Click);
+			// 
+			// btnlLoadPlaylist
+			// 
+			this.btnlLoadPlaylist.Location = new System.Drawing.Point(171, 11);
+			this.btnlLoadPlaylist.Name = "btnlLoadPlaylist";
+			this.btnlLoadPlaylist.Size = new System.Drawing.Size(82, 23);
+			this.btnlLoadPlaylist.TabIndex = 4;
+			this.btnlLoadPlaylist.Text = "Load Playlist";
+			this.btnlLoadPlaylist.UseVisualStyleBackColor = true;
+			this.btnlLoadPlaylist.Click += new System.EventHandler(this.btnlLoadPlaylist_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(454, 332);
+			this.ClientSize = new System.Drawing.Size(648, 343);
 			this.Controls.Add(this.chkWhatIf);
 			this.Controls.Add(this.btnArchiveCurrent);
 			this.Controls.Add(this.lbxEvents);
 			this.Controls.Add(this.btnDeleteCurrent);
+			this.Controls.Add(this.btnlLoadPlaylist);
+			this.Controls.Add(this.btnClearPlaylist);
 			this.Controls.Add(this.btnPlayPause);
 			this.Controls.Add(this.btnStartMpc);
 			this.MinimumSize = new System.Drawing.Size(470, 370);
@@ -130,5 +154,7 @@
 		private System.Windows.Forms.Button btnDeleteCurrent;
 		private System.Windows.Forms.Button btnArchiveCurrent;
 		private System.Windows.Forms.CheckBox chkWhatIf;
+		private System.Windows.Forms.Button btnClearPlaylist;
+		private System.Windows.Forms.Button btnlLoadPlaylist;
 	}
 }

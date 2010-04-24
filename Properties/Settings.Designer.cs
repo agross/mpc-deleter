@@ -85,5 +85,17 @@ namespace MpcDeleter.Properties {
                 this["ArchivePathOverrides"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[]")]
+        public string PlaylistFolders {
+            get {
+                return ((string)(this["PlaylistFolders"]));
+            }
+            set {
+                this["PlaylistFolders"] = value;
+            }
+        }
     }
 }

@@ -45,9 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Commands\AddFileToPlaylistCommand.cs" />
     <Compile Include="Commands\ArchiveCurrentFileCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\AutoLoadPlaylistCommand.cs" />
+    <Compile Include="Commands\ClearPlaylistCommand.cs" />
     <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
     <Compile Include="Commands\FindMessageExchangeCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
