@@ -41,9 +41,11 @@ namespace MpcDeleter.MpcMessageHandlers
 			var fileName = data.Skip(3).First();
 			var length = data.Skip(4).First();
 
-			context.Player.CurrentFile = fileName;
-			context.Player.CurrentFileLength = length;
-			context.Log(String.Format("Now playing: {0}, length {1} seconds", fileName, length));
+			context.Player.UpdateCurrentFile(fileName, int.Parse(length));
+
+			context.Log(String.Format("Now playing: {0}, length {1} seconds",
+			                          context.Player.CurrentFile,
+			                          context.Player.CurrentFileLength));
 		}
 	}
 }

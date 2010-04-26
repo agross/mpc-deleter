@@ -5,13 +5,19 @@ namespace MpcDeleter
 		public string CurrentFile
 		{
 			get;
-			set;
+			private set;
 		}
 
-		public string CurrentFileLength
+		public int CurrentFileLength
 		{
 			get;
-			set;
+			private set;
+		}
+
+		public void UpdateCurrentFile(string fileName, int length)
+		{
+			CurrentFile = fileName;
+			CurrentFileLength = length == 0 ? int.MaxValue : length;
 		}
 	}
 }
