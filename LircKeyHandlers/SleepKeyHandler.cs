@@ -18,7 +18,7 @@ namespace MpcDeleter.LircKeyHandlers
 
 		public bool CanHandle(string message)
 		{
-			return message.Contains(" sleep ");
+			return message.Contains(" sleep ") || message.Contains(" ok ");
 		}
 
 		protected override void HandleKey(IContext context)

@@ -11,7 +11,7 @@ namespace MpcDeleter.LircKeyHandlers
 
 		public bool CanHandle(string message)
 		{
-			return message.Contains(" shift ");
+			return message.Contains(" shift ") || message.Contains(" 3 ");
 		}
 
 		protected override void HandleKey(IContext context)
