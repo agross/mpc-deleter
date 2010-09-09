@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 
 namespace MpcDeleter.Commands
 {
@@ -34,6 +35,7 @@ namespace MpcDeleter.Commands
 
 			try
 			{
+				Thread.Sleep(TimeSpan.FromSeconds(3));
 				Directory.CreateDirectory(Path.GetDirectoryName(archiveFile));
 				File.Move(file, archiveFile);
 
