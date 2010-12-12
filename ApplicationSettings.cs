@@ -30,12 +30,13 @@ namespace MpcDeleter
 
 		static void UpgradeSettingsToNewApplicationVersion()
 		{
-			if (Settings.Default.ShouldUpgrade)
-			{
-				Settings.Default.Upgrade();
-				Settings.Default.ShouldUpgrade = false;
-				Settings.Default.Save();
-			}
+			// Only possible for per-user settings. We have none of these.
+//			if (Settings.Default.ShouldUpgrade)
+//			{
+//				Settings.Default.Upgrade();
+//				Settings.Default.ShouldUpgrade = false;
+//				Settings.Default.Save();
+//			}
 		}
 
 		static void LoadOverrides()

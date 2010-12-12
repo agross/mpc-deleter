@@ -11,16 +11,16 @@
     <Setting Name="LircPort" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">8765</Value>
     </Setting>
-    <Setting Name="DefaultArchivePath" Type="System.String" Scope="User">
+    <Setting Name="DefaultArchivePath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Z:\</Value>
     </Setting>
-    <Setting Name="ShouldUpgrade" Type="System.Boolean" Scope="User">
+    <Setting Name="ShouldUpgrade" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="ArchivePathOverrides" Type="System.String" Scope="User">
+    <Setting Name="ArchivePathOverrides" Type="System.String" Scope="Application">
       <Value Profile="(Default)">[]</Value>
     </Setting>
-    <Setting Name="PlaylistFolders" Type="System.String" Scope="User">
+    <Setting Name="PlaylistFolders" Type="System.String" Scope="Application">
       <Value Profile="(Default)">[]</Value>
     </Setting>
   </Settings>

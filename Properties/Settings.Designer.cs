@@ -50,51 +50,39 @@ namespace MpcDeleter.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Z:\\")]
         public string DefaultArchivePath {
             get {
                 return ((string)(this["DefaultArchivePath"]));
             }
-            set {
-                this["DefaultArchivePath"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShouldUpgrade {
             get {
                 return ((bool)(this["ShouldUpgrade"]));
             }
-            set {
-                this["ShouldUpgrade"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("[]")]
         public string ArchivePathOverrides {
             get {
                 return ((string)(this["ArchivePathOverrides"]));
             }
-            set {
-                this["ArchivePathOverrides"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("[]")]
         public string PlaylistFolders {
             get {
                 return ((string)(this["PlaylistFolders"]));
-            }
-            set {
-                this["PlaylistFolders"] = value;
             }
         }
     }
