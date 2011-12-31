@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace MpcDeleter.Commands
 {
-	internal class ArchiveCurrentFileCommand : ICommand
+	class ArchiveCurrentFileCommand : ICommand
 	{
 		readonly IArchivePathSelector _archivePathSelector;
 		readonly bool _whatIf;
@@ -37,7 +37,23 @@ namespace MpcDeleter.Commands
 			{
 				Thread.Sleep(TimeSpan.FromSeconds(3));
 				Directory.CreateDirectory(Path.GetDirectoryName(archiveFile));
-				File.Move(file, archiveFile);
+
+				var originalArchiveFile = archiveFile;
+				var retry = true;
+				var counter = 1;
+				while (retry)
+				{
+					
+					try
+					{
+						File.Move(file, archiveFile);
+						retry = false;
+					}
+					catch (IOException)
+					{
+						archiveFile = IncrementFileName(originalArchiveFile, ref counter);
+					}
+				}
 
 				context.Log("Archived file {0} to {1}", file, archiveFile);
 			}
@@ -45,6 +61,18 @@ namespace MpcDeleter.Commands
 			{
 				context.Log("Failed to archive file {0} to {1}, {2}", file, archiveFile, ex.Message);
 			}
+		}
+
+		static string IncrementFileName(string archiveFile, ref int counter)
+		{
+			var path = Path.GetDirectoryName(archiveFile);
+			var fileName = Path.GetFileNameWithoutExtension(archiveFile);
+			var extension = Path.GetExtension(archiveFile);
+
+			fileName = fileName + counter;
+			counter += 1;
+
+			return Path.Combine(path, fileName + extension);
 		}
 	}
 }
