@@ -10,7 +10,7 @@ namespace MpcDeleter.Commands
 	{
 		public void Execute(IContext context)
 		{
-			context.Execute(new FindMessageExchangeCommand());
+			context.Log("Exchanging messages through window handle {0:X}", context.MessageExchange.ToInt64());
 
 			try
 			{

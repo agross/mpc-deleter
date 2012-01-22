@@ -58,7 +58,6 @@
     <Compile Include="Commands\AutoLoadPlaylistCommand.cs" />
     <Compile Include="Commands\ClearPlaylistCommand.cs" />
     <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
-    <Compile Include="Commands\FindMessageExchangeCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\AdvanceToNextFileCommand.cs" />
     <Compile Include="Commands\PlayPauseCommand.cs" />
