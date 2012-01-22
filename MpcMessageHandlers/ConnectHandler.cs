@@ -4,41 +4,35 @@ using System.Windows.Forms;
 
 namespace MpcDeleter.MpcMessageHandlers
 {
-	public class ConnectHandler : AbstractMpcMessageHandler
+	class ConnectHandler : AbstractMpcMessageHandler
 	{
 		public override bool CanHandle(Message message)
 		{
-			if (message.Msg != NativeConstants.WM_COPYDATA)
-			{
-				return false;
-			}
-
-			var cds = GetCopiedData(message);
-			return cds.dwData == new UIntPtr(NativeConstants.CMD_CONNECT);
+			return message.Matches(NativeConstants.CMD_CONNECT);
 		}
 
 		public override void Handle(Message message, IContext context)
 		{
-			var cds = GetCopiedData(message);
+			var copiedData = message.GetCopiedData();
 
-			var handle = Marshal.PtrToStringUni(cds.lpData);
+			var handleAsString = Marshal.PtrToStringUni(copiedData.lpData);
+			var handle = new IntPtr(Int64.Parse(handleAsString));
 
-			context.InitializeConnectionToMediaPlayerClassic(new IntPtr(Int64.Parse(handle)));
+			Bus.Publish(new ConnectionEstablished(handle));
+		}
+	}
 
-			context.Log("Connected to MPC at {0:X}", context.MediaPlayerClassic.ToInt64());
-
-			OnConnected();
+	class ConnectionEstablished : IMessage
+	{
+		public ConnectionEstablished(IntPtr handle)
+		{
+			Handle = handle;
 		}
 
-		public event EventHandler<EventArgs> Connected;
-
-		public void OnConnected()
+		public IntPtr Handle
 		{
-			EventHandler<EventArgs> handler = Connected;
-			if (handler != null)
-			{
-				handler(this, EventArgs.Empty);
-			}
+			get;
+			private set;
 		}
 	}
 }

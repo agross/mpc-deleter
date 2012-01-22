@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace MpcDeleter.Commands
 {
-	internal class SendMessageCommand : ICommand
+	class SendMessageCommand : ICommand
 	{
 		readonly string _data;
 		readonly uint _message;

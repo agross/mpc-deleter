@@ -77,7 +77,12 @@ namespace MpcDeleter
 
 		void SetUpLirc()
 		{
-			var lircKeyHandlers = new ILircKeyHandler[] { new ShiftKeyHandler(), new SleepKeyHandler(_archivePathSelector) };
+			var lircKeyHandlers = new ILircKeyHandler[]
+			                      {
+			                      	new UpKeyHandler(),
+			                      	new ShiftKeyHandler(),
+			                      	new SleepKeyHandler(_archivePathSelector)
+			                      };
 
 			_lirc = new LircClient();
 			_lirc.KeyPressed += (s, e) =>
@@ -93,14 +98,12 @@ namespace MpcDeleter
 
 		void SetUpMessageExchange()
 		{
-			var connectHandler = new ConnectHandler();
-			connectHandler.Connected += (sender, e) =>
-				{
-//					Execute(new ClearPlaylistCommand());
-//					Execute(new AutoLoadPlaylistCommand(ApplicationSettings.PlaylistFolders));
-				};
-
-			var messageHandlers = new IMessageHandler[] { connectHandler, new NowPlayingMessageHandler(), new CurrentPositionHandler() };
+			var messageHandlers = new IMessageHandler[]
+			                      {
+			                      	new ConnectHandler(),
+			                      	new NowPlayingMessageHandler(), 
+									new CurrentPositionHandler()
+			                      };
 
 			_messageExchange = new MessageProcessingWindow(x => x.Msg == NativeConstants.WM_COPYDATA);
 			_messageExchange.MessageReceived += (s, e) =>

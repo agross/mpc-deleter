@@ -1,6 +1,6 @@
 namespace MpcDeleter.Commands
 {
-	internal class AddFileToPlaylistCommand : ICommand
+	class AddFileToPlaylistCommand : ICommand
 	{
 		readonly string _fileName;
 

@@ -43,7 +43,6 @@ namespace MpcDeleter.Commands
 				var counter = 1;
 				while (retry)
 				{
-					
 					try
 					{
 						File.Move(file, archiveFile);

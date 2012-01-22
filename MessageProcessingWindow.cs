@@ -11,8 +11,7 @@ namespace MpcDeleter
 		{
 			_signalMessage = signalMessage ?? (x => true);
 
-			var createParams = new CreateParams();
-			createParams.Caption = "Message Exchange Window";
+			var createParams = new CreateParams { Caption = "Message Exchange Window" };
 			CreateHandle(createParams);
 		}
 

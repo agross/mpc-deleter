@@ -1,22 +1,13 @@
-using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-using MpcDeleter.Commands;
-
 namespace MpcDeleter.MpcMessageHandlers
 {
-	public class CurrentPositionHandler : AbstractMpcMessageHandler
+	class CurrentPositionHandler : AbstractMpcMessageHandler
 	{
 		public override bool CanHandle(Message message)
 		{
-			if (message.Msg != NativeConstants.WM_COPYDATA)
-			{
-				return false;
-			}
-
-			var cds = GetCopiedData(message);
-			return cds.dwData == new UIntPtr(NativeConstants.CMD_CURRENTPOSITION);
+			return message.Matches(NativeConstants.CMD_CURRENTPOSITION);
 		}
 
 		public override void Handle(Message message, IContext context)
@@ -25,10 +16,23 @@ namespace MpcDeleter.MpcMessageHandlers
 
 			var pos = Marshal.PtrToStringUni(cds.lpData);
 			var position = int.Parse(pos);
-			var advance = (int) (context.Player.CurrentFileLength * 0.1);
+			context.Log("Current position is at {0} seconds", position);
 
-			context.Log("Current position {0} seconds", position);
-			context.Execute(new FastForwardCommand(position + advance));
+			Bus.Publish(new CurrentPositionChanged(position));
+		}
+	}
+
+	class CurrentPositionChanged : IMessage
+	{
+		public CurrentPositionChanged(int position)
+		{
+			Position = position;
+		}
+
+		public int Position
+		{
+			get;
+			private set;
 		}
 	}
 }

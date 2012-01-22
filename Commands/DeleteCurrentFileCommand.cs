@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace MpcDeleter.Commands
 {
-	internal class DeleteCurrentFileCommand : ICommand
+	class DeleteCurrentFileCommand : ICommand
 	{
 		readonly bool _whatIf;
 

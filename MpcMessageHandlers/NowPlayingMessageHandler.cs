@@ -21,13 +21,7 @@ namespace MpcDeleter.MpcMessageHandlers
 
 		public override bool CanHandle(Message message)
 		{
-			if (message.Msg != NativeConstants.WM_COPYDATA)
-			{
-				return false;
-			}
-
-			var cds = GetCopiedData(message);
-			return cds.dwData == new UIntPtr(NativeConstants.CMD_NOWPLAYING);
+			return message.Matches(NativeConstants.CMD_NOWPLAYING);
 		}
 
 		public override void Handle(Message message, IContext context)

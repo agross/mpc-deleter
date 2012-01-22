@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="Bus.cs" />
     <Compile Include="Commands\AddFileToPlaylistCommand.cs" />
     <Compile Include="Commands\ArchiveCurrentFileCommand.cs">
       <SubType>Code</SubType>
@@ -59,7 +60,6 @@
     <Compile Include="Commands\ClearPlaylistCommand.cs" />
     <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
     <Compile Include="Commands\FastForwardCommand.cs" />
-    <Compile Include="Commands\GetCurrentPostionCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\AdvanceToNextFileCommand.cs" />
     <Compile Include="Commands\PlayPauseCommand.cs" />
@@ -73,6 +73,7 @@
     <Compile Include="LircKeyHandlers\ShiftKeyHandler.cs" />
     <Compile Include="LircKeyHandlers\SleepKeyHandler.cs" />
     <Compile Include="LircKeyHandlers\TimedKeyHandler.cs" />
+    <Compile Include="LircKeyHandlers\UpKeyHandler.cs" />
     <Compile Include="MessageEventArgs.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -80,6 +81,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageExtensions.cs" />
     <Compile Include="MpcDeleterApplicationContext.cs" />
     <Compile Include="MpcMessageHandlers\CurrentPositionHandler.cs" />
     <Compile Include="RegexBasedArchivePathSelector.cs" />

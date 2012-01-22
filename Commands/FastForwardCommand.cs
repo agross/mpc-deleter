@@ -1,19 +1,35 @@
+using System;
 using System.Globalization;
+
+using MpcDeleter.MpcMessageHandlers;
 
 namespace MpcDeleter.Commands
 {
-	public class FastForwardCommand : ICommand
+	class FastForwardCommand : ICommand
 	{
-		readonly long _newPosition;
+		readonly double _percentOfLength;
+		IDisposable _unsubscriber;
 
-		public FastForwardCommand(long newPosition)
+		public FastForwardCommand(double percentOfLength)
 		{
-			_newPosition = newPosition;
+			_percentOfLength = percentOfLength;
 		}
 
 		public void Execute(IContext context)
 		{
-			context.Execute(new SendMessageCommand(NativeConstants.CMD_SETPOSITION, _newPosition.ToString(CultureInfo.InvariantCulture)));
+			_unsubscriber = Bus.Subscribe<CurrentPositionChanged>(m => CurrentPositionChanged(context, m));
+
+			context.Execute(new SendMessageCommand(NativeConstants.CMD_GETCURRENTPOSITION, null));
+		}
+
+		void CurrentPositionChanged(IContext context, CurrentPositionChanged message)
+		{
+			var newPosition = message.Position + context.Player.CurrentFileLength * _percentOfLength;
+
+			context.Execute(new SendMessageCommand(NativeConstants.CMD_SETPOSITION,
+			                                       newPosition.ToString(CultureInfo.InvariantCulture)));
+
+			_unsubscriber.Dispose();
 		}
 	}
 }

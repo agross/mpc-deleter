@@ -51,7 +51,7 @@ namespace MpcDeleter
 
 		void btnlFastForward10Percent_Click(object sender, EventArgs e)
 		{
-			var command = new GetCurrentPostionCommand();
+			var command = new FastForwardCommand(0.1);
 
 			Execute(command);
 		}

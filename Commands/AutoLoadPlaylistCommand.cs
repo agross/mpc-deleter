@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MpcDeleter.Commands
 {
-	internal class AutoLoadPlaylistCommand : ICommand
+	class AutoLoadPlaylistCommand : ICommand
 	{
 		readonly string[] _folders;
 
