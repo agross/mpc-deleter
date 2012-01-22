@@ -100,7 +100,7 @@ namespace MpcDeleter
 //					Execute(new AutoLoadPlaylistCommand(ApplicationSettings.PlaylistFolders));
 				};
 
-			var messageHandlers = new IMessageHandler[] { connectHandler, new NowPlayingMessageHandler() };
+			var messageHandlers = new IMessageHandler[] { connectHandler, new NowPlayingMessageHandler(), new CurrentPositionHandler() };
 
 			_messageExchange = new MessageProcessingWindow(x => x.Msg == NativeConstants.WM_COPYDATA);
 			_messageExchange.MessageReceived += (s, e) =>

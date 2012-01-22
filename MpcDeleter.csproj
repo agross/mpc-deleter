@@ -58,6 +58,8 @@
     <Compile Include="Commands\AutoLoadPlaylistCommand.cs" />
     <Compile Include="Commands\ClearPlaylistCommand.cs" />
     <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
+    <Compile Include="Commands\FastForwardCommand.cs" />
+    <Compile Include="Commands\GetCurrentPostionCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\AdvanceToNextFileCommand.cs" />
     <Compile Include="Commands\PlayPauseCommand.cs" />
@@ -79,6 +81,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MpcDeleterApplicationContext.cs" />
+    <Compile Include="MpcMessageHandlers\CurrentPositionHandler.cs" />
     <Compile Include="RegexBasedArchivePathSelector.cs" />
     <Compile Include="WindowMessageEventArgs.cs" />
     <Compile Include="MpcMessageHandlers\AbstractMpcMessageHandler.cs" />

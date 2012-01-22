@@ -16,6 +16,8 @@ namespace MpcDeleter
 		public static uint CMD_CLEARPLAYLIST = 0xA0001001;
 		public static uint CMD_ADDTOPLAYLIST = 0xA0001000;
 		public static uint WM_COPYDATA = 0x004A;
+		public static uint CMD_CURRENTPOSITION = 0x50000007;
+		public static uint CMD_GETCURRENTPOSITION = 0xA0003004;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

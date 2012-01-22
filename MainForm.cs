@@ -49,19 +49,16 @@ namespace MpcDeleter
 			Execute(command);
 		}
 
+		void btnlFastForward10Percent_Click(object sender, EventArgs e)
+		{
+			var command = new GetCurrentPostionCommand();
+
+			Execute(command);
+		}
+
 		void Execute(ICommand command)
 		{
 			_context.Execute(command);
-		}
-
-		void btnClearPlaylist_Click(object sender, EventArgs e)
-		{
-			Execute(new ClearPlaylistCommand());
-		}
-
-		private void btnlLoadPlaylist_Click(object sender, EventArgs e)
-		{
-			Execute(new AutoLoadPlaylistCommand(ApplicationSettings.PlaylistFolders));
 		}
 	}
 }

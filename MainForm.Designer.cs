@@ -34,8 +34,7 @@
 			this.btnDeleteCurrent = new System.Windows.Forms.Button();
 			this.btnArchiveCurrent = new System.Windows.Forms.Button();
 			this.chkWhatIf = new System.Windows.Forms.CheckBox();
-			this.btnClearPlaylist = new System.Windows.Forms.Button();
-			this.btnlLoadPlaylist = new System.Windows.Forms.Button();
+			this.btnlFastForward10Percent = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnStartMpc
@@ -60,9 +59,9 @@
 			// 
 			// lbxEvents
 			// 
-			this.lbxEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lbxEvents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lbxEvents.FormattingEnabled = true;
 			this.lbxEvents.HorizontalScrollbar = true;
 			this.lbxEvents.Location = new System.Drawing.Point(12, 40);
@@ -105,25 +104,15 @@
 			this.chkWhatIf.Text = "WhatIf";
 			this.chkWhatIf.UseVisualStyleBackColor = true;
 			// 
-			// btnClearPlaylist
+			// btnlFastForward10Percent
 			// 
-			this.btnClearPlaylist.Location = new System.Drawing.Point(259, 12);
-			this.btnClearPlaylist.Name = "btnClearPlaylist";
-			this.btnClearPlaylist.Size = new System.Drawing.Size(82, 23);
-			this.btnClearPlaylist.TabIndex = 4;
-			this.btnClearPlaylist.Text = "Clear Playlist";
-			this.btnClearPlaylist.UseVisualStyleBackColor = true;
-			this.btnClearPlaylist.Click += new System.EventHandler(this.btnClearPlaylist_Click);
-			// 
-			// btnlLoadPlaylist
-			// 
-			this.btnlLoadPlaylist.Location = new System.Drawing.Point(171, 11);
-			this.btnlLoadPlaylist.Name = "btnlLoadPlaylist";
-			this.btnlLoadPlaylist.Size = new System.Drawing.Size(82, 23);
-			this.btnlLoadPlaylist.TabIndex = 4;
-			this.btnlLoadPlaylist.Text = "Load Playlist";
-			this.btnlLoadPlaylist.UseVisualStyleBackColor = true;
-			this.btnlLoadPlaylist.Click += new System.EventHandler(this.btnlLoadPlaylist_Click);
+			this.btnlFastForward10Percent.Location = new System.Drawing.Point(171, 11);
+			this.btnlFastForward10Percent.Name = "btnlFastForward10Percent";
+			this.btnlFastForward10Percent.Size = new System.Drawing.Size(82, 23);
+			this.btnlFastForward10Percent.TabIndex = 4;
+			this.btnlFastForward10Percent.Text = "Ffw 10%";
+			this.btnlFastForward10Percent.UseVisualStyleBackColor = true;
+			this.btnlFastForward10Percent.Click += new System.EventHandler(this.btnlFastForward10Percent_Click);
 			// 
 			// MainForm
 			// 
@@ -134,8 +123,7 @@
 			this.Controls.Add(this.btnArchiveCurrent);
 			this.Controls.Add(this.lbxEvents);
 			this.Controls.Add(this.btnDeleteCurrent);
-			this.Controls.Add(this.btnlLoadPlaylist);
-			this.Controls.Add(this.btnClearPlaylist);
+			this.Controls.Add(this.btnlFastForward10Percent);
 			this.Controls.Add(this.btnPlayPause);
 			this.Controls.Add(this.btnStartMpc);
 			this.MinimumSize = new System.Drawing.Size(470, 370);
@@ -154,7 +142,6 @@
 		private System.Windows.Forms.Button btnDeleteCurrent;
 		private System.Windows.Forms.Button btnArchiveCurrent;
 		private System.Windows.Forms.CheckBox chkWhatIf;
-		private System.Windows.Forms.Button btnClearPlaylist;
-		private System.Windows.Forms.Button btnlLoadPlaylist;
+		private System.Windows.Forms.Button btnlFastForward10Percent;
 	}
 }
