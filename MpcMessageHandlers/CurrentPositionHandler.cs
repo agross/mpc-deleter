@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -15,10 +17,18 @@ namespace MpcDeleter.MpcMessageHandlers
 			var cds = GetCopiedData(message);
 
 			var pos = Marshal.PtrToStringUni(cds.lpData);
-			var position = int.Parse(pos);
-			context.Log("Current position is at {0} seconds", position);
+			double position;
+			if (double.TryParse(pos, NumberStyles.Any, CultureInfo.InvariantCulture, out position))
+			{
+				var roundedPosition = Convert.ToInt32(Math.Round(position));
+				context.Log("Current position is at {0} seconds", roundedPosition);
 
-			Bus.Publish(new CurrentPositionChanged(position));
+				Bus.Publish(new CurrentPositionChanged(roundedPosition));
+			}
+			else
+			{
+				context.Log("Could not determine current position. Received: {0}", pos);
+			}
 		}
 	}
 
