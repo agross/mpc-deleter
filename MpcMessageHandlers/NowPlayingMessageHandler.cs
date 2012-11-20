@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -33,9 +34,11 @@ namespace MpcDeleter.MpcMessageHandlers
 				.Select(x => x.Replace("\\|", "\\"));
 
 			var fileName = data.Skip(3).First();
-			var length = data.Skip(4).First();
+			
+      var length = data.Skip(4).First();
+      var roundedLength = Convert.ToInt32(decimal.Parse(length, CultureInfo.InvariantCulture));
 
-			context.Player.UpdateCurrentFile(fileName, int.Parse(length));
+		  context.Player.UpdateCurrentFile(fileName, roundedLength);
 
 			context.Log(String.Format("Now playing: {0}, length {1} seconds",
 			                          context.Player.CurrentFile,
