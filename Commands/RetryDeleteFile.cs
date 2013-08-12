@@ -7,8 +7,8 @@ namespace MpcDeleter.Commands
 {
   class RetryDeleteFile : ICommand
   {
-    readonly int _retriesLeft;
     readonly string _file;
+    readonly int _retriesLeft;
 
     public RetryDeleteFile(int retriesLeft, string file)
     {
@@ -37,7 +37,10 @@ namespace MpcDeleter.Commands
           context.Log("Failed to delete file, going to retry {0}, {1}", _file, ex.Message);
           context.Execute(new RetryDeleteFile(_retriesLeft - 1, _file));
         }
-      }).Start();
+      })
+          .ContinueWith(c => { var ignored = c.Exception; },
+                        TaskContinuationOptions.OnlyOnFaulted |
+                        TaskContinuationOptions.ExecuteSynchronously);
     }
   }
 }

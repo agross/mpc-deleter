@@ -64,6 +64,7 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\AdvanceToNextFileCommand.cs" />
     <Compile Include="Commands\PlayPauseCommand.cs" />
+    <Compile Include="Commands\RetryDeleteFile.cs" />
     <Compile Include="Commands\SendMessageCommand.cs" />
     <Compile Include="Commands\StartMpcCommand.cs" />
     <Compile Include="EnumerableExtensions.cs" />
