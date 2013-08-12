@@ -17,12 +17,23 @@ namespace MpcDeleter
 
       _context = context;
       _pathSelector = pathSelector;
-      _context.LogMessage += (s, e) => SynchronizationContext.Current.Send(x =>
+      _context.LogMessage += (s, e) =>
       {
-        var addedIndex = lbxEvents.Items.Add(e.Message);
-        lbxEvents.SelectedIndex = addedIndex;
-      },
-                                                                           null);
+        Action appendToLog = () => SynchronizationContext.Current.Send(x =>
+        {
+          var addedIndex = lbxEvents.Items.Add(e.Message);
+          lbxEvents.SelectedIndex = addedIndex;
+        },
+                                                                       null);
+        if (InvokeRequired)
+        {
+          Invoke(appendToLog);
+        }
+        else
+        {
+          appendToLog();
+        }
+      };
     }
 
     protected override void WndProc(ref Message m)
