@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading;
 
 namespace MpcDeleter.Commands
 {
@@ -32,7 +31,6 @@ namespace MpcDeleter.Commands
 
 			try
 			{
-				Thread.Sleep(TimeSpan.FromSeconds(3));
 				File.Delete(file);
 				context.Log("Deleted file {0}", file);
 			}

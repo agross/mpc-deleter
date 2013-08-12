@@ -20,12 +20,6 @@ namespace MpcDeleter.Commands
     {
       Task.Factory.StartNew(() =>
       {
-        if (_retriesLeft <= 0)
-        {
-          context.Log("All retries used up deleting {0}", _file);
-          return;
-        }
-
         try
         {
           Thread.Sleep(TimeSpan.FromSeconds(3));
@@ -34,13 +28,17 @@ namespace MpcDeleter.Commands
         }
         catch (Exception ex)
         {
-          context.Log("Failed to delete file, going to retry {0}, {1}", _file, ex.Message);
-          context.Execute(new RetryDeleteFile(_retriesLeft - 1, _file));
+          var retriesLeft = _retriesLeft - 1;
+          if (retriesLeft <= 0)
+          {
+            context.Log("All retries used up deleting {0}", _file);
+            return;
+          }
+
+          context.Log("Failed to delete file, going to retry {0} times, {1}, {2}", retriesLeft, _file, ex.Message);
+          context.Execute(new RetryDeleteFile(retriesLeft, _file));
         }
-      })
-          .ContinueWith(c => { var ignored = c.Exception; },
-                        TaskContinuationOptions.OnlyOnFaulted |
-                        TaskContinuationOptions.ExecuteSynchronously);
+      });
     }
   }
 }
