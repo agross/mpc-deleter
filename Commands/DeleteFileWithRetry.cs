@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace MpcDeleter.Commands
 {
-  class RetryDeleteFile : ICommand
+  class DeleteFileWithRetry : ICommand
   {
     readonly string _file;
     readonly int _retriesLeft;
 
-    public RetryDeleteFile(int retriesLeft, string file)
+    public DeleteFileWithRetry(int retriesLeft, string file)
     {
       _retriesLeft = retriesLeft;
       _file = file;
@@ -36,7 +36,7 @@ namespace MpcDeleter.Commands
           }
 
           context.Log("Failed to delete file, going to retry {0} times, {1}, {2}", retriesLeft, _file, ex.Message);
-          context.Execute(new RetryDeleteFile(retriesLeft, _file));
+          context.Execute(new DeleteFileWithRetry(retriesLeft, _file));
         }
       });
     }

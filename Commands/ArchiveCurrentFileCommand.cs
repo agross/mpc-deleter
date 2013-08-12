@@ -45,7 +45,7 @@ namespace MpcDeleter.Commands
 				{
 					try
 					{
-						File.Move(file, archiveFile);
+						File.Copy(file, archiveFile);
 						retry = false;
 					}
 					catch (IOException)
@@ -54,7 +54,8 @@ namespace MpcDeleter.Commands
 					}
 				}
 
-				context.Log("Archived file {0} to {1}", file, archiveFile);
+				context.Log("Archived file {0} to {1}, now going to delete", file, archiveFile);
+        context.Execute(new DeleteFileWithRetry(4, file));
 			}
 			catch (Exception ex)
 			{
