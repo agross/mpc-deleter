@@ -38,7 +38,8 @@ namespace MpcDeleter.Commands
 			}
 			catch (Exception ex)
 			{
-				context.Log("Failed to delete file {0}, {1}", file, ex.Message);
+				context.Log("Failed to delete file, going to retry {0}, {1}", file, ex.Message);
+        context.Execute(new RetryDeleteFile(3, file));
 			}
 		}
 	}
