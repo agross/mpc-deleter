@@ -25,6 +25,5 @@ namespace MpcDeleter
 
 		void InitializeConnectionToMediaPlayerClassic(IntPtr window);
 		void Log(string message, params object[] args);
-		event EventHandler<MessageEventArgs> LogMessage;
 	}
 }

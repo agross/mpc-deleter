@@ -1,3 +1,4 @@
 source https://www.nuget.org/api/v2
 
 nuget Rx-Main ~> 2.2
+nuget Minimod.RxMessageBroker

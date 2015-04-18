@@ -74,5 +74,10 @@ namespace MpcDeleter.Commands
 
 			return Path.Combine(path, fileName + extension);
 		}
+
+	  public override string ToString()
+	  {
+	    return string.Format("Attempting to archive the current file {0}", "TODO");
+	  }
 	}
 }

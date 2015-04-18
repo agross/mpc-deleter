@@ -1,39 +1,40 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Reactive.Concurrency;
+using System.Reactive.Disposables;
 using System.Threading;
 using System.Windows.Forms;
 
+using Minimod.RxMessageBroker;
+
 using MpcDeleter.Commands;
+using MpcDeleter.Messages;
+using MpcDeleter.Properties;
 
 namespace MpcDeleter
 {
   public partial class MainForm : Form
   {
-    readonly IContext _context;
     readonly IArchivePathSelector _pathSelector;
 
-    public MainForm(IContext context, IArchivePathSelector pathSelector)
+    public MainForm(IArchivePathSelector pathSelector)
     {
       InitializeComponent();
+      components = new NestedContainer(this);
 
-      _context = context;
       _pathSelector = pathSelector;
-      _context.LogMessage += (s, e) =>
-      {
-        Action appendToLog = () => SynchronizationContext.Current.Send(x =>
+
+      var subscriptions = new CompositeDisposable(
+        RxMessageBrokerMinimod.Default.Register<Log>(m =>
         {
-          var addedIndex = lbxEvents.Items.Add(e.Message);
+          Debug.WriteLine(m.Message);
+
+          var addedIndex = lbxEvents.Items.Add(m.Message);
           lbxEvents.SelectedIndex = addedIndex;
-        },
-                                                                       null);
-        if (InvokeRequired)
-        {
-          Invoke(appendToLog);
-        }
-        else
-        {
-          appendToLog();
-        }
-      };
+        }, new SynchronizationContextScheduler(SynchronizationContext.Current)));
+
+      components.Add(new Disposer(_ => subscriptions.Dispose()));
     }
 
     protected override void WndProc(ref Message m)
@@ -59,38 +60,27 @@ namespace MpcDeleter
 
     void btnStartMpc_Click(object sender, EventArgs e)
     {
-      Execute(new StartMpcCommand());
+      RxMessageBrokerMinimod.Default.Send(new StartMpc(Settings.Default.MpcPath));
     }
 
     void btnPlayPause_Click(object sender, EventArgs e)
     {
-      Execute(new PlayPauseCommand());
+      RxMessageBrokerMinimod.Default.Send(new PlayPauseCommand());
     }
 
     void btnDeleteCurrent_Click(object sender, EventArgs e)
     {
-      var command = new DeleteCurrentFileCommand(chkWhatIf.Checked);
-
-      Execute(command);
+      RxMessageBrokerMinimod.Default.Send(new DeleteCurrentFileCommand(chkWhatIf.Checked));
     }
 
     void btnArchiveCurrent_Click(object sender, EventArgs e)
     {
-      var command = new ArchiveCurrentFileCommand(_pathSelector, chkWhatIf.Checked);
-
-      Execute(command);
+      RxMessageBrokerMinimod.Default.Send(new ArchiveCurrentFileCommand(_pathSelector, chkWhatIf.Checked));
     }
 
     void btnlFastForward10Percent_Click(object sender, EventArgs e)
     {
-      var command = new FastForwardCommand(0.1);
-
-      Execute(command);
-    }
-
-    void Execute(ICommand command)
-    {
-      _context.Execute(command);
+      RxMessageBrokerMinimod.Default.Send(new FastForwardCommand(0.1));
     }
   }
 }

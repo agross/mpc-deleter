@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MpcDeleter
 {
-  public class LircClient : IObservable<string>
+  class LircClient : IObservable<string>
   {
     readonly IObservable<string> _subscription;
 

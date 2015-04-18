@@ -40,5 +40,10 @@ namespace MpcDeleter.Commands
         context.Execute(new DeleteFileWithRetry(3, file));
 			}
 		}
+
+	  public override string ToString()
+	  {
+        return String.Format("Attempting to delete the current file {0}", "TODO");
+	  }
 	}
 }

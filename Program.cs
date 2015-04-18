@@ -19,7 +19,7 @@ namespace MpcDeleter
 
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(true);
-      Application.Run(new MpcDeleterApplicationContext());
+      Application.Run(new AppContext());
     }
 
     static void ActivateOtherInstance()
