@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Windows.Forms;
 
 using MpcDeleter.Commands;
@@ -9,125 +10,121 @@ using MpcDeleter.Properties;
 
 namespace MpcDeleter
 {
-	internal class MpcDeleterApplicationContext : ApplicationContext, IContext
-	{
-		readonly PlayerContext _player = new PlayerContext();
-		RegexBasedArchivePathSelector _archivePathSelector;
-		IDisposable _lirc;
-		MessageProcessingWindow _messageExchange;
+  class MpcDeleterApplicationContext : ApplicationContext, IContext
+  {
+    readonly PlayerContext _player = new PlayerContext();
+    RegexBasedArchivePathSelector _archivePathSelector;
+    readonly IDisposable _lirc;
+    MessageProcessingWindow _messageExchange;
 
-		public MpcDeleterApplicationContext()
-		{
-			LoadSettings();
+    public MpcDeleterApplicationContext()
+    {
+      LoadSettings();
 
-			MainForm = new MainForm(this, _archivePathSelector);
+      MainForm = new MainForm(this, _archivePathSelector);
 
-			SetUpLirc();
-			SetUpMessageExchange();
+      _lirc = SetUpLirc();
+      SetUpMessageExchange();
 
-			Execute(new StartMpcCommand());
+      Execute(new StartMpcCommand());
 
-			MainForm.Show();
-		}
+      MainForm.Show();
+    }
 
-		public event EventHandler<MessageEventArgs> LogMessage;
+    public event EventHandler<MessageEventArgs> LogMessage;
 
-		public PlayerContext Player
-		{
-			get { return _player; }
-		}
+    public PlayerContext Player
+    {
+      get
+      {
+        return _player;
+      }
+    }
 
-		public void Execute(ICommand command)
-		{
-			command.Execute(this);
-		}
+    public void Execute(ICommand command)
+    {
+      command.Execute(this);
+    }
 
-		public IntPtr MessageExchange
-		{
-			get { return _messageExchange.Handle; }
-		}
+    public IntPtr MessageExchange
+    {
+      get
+      {
+        return _messageExchange.Handle;
+      }
+    }
 
-		public IntPtr MediaPlayerClassic
-		{
-			get;
-			private set;
-		}
+    public IntPtr MediaPlayerClassic { get; private set; }
 
-		public void InitializeConnectionToMediaPlayerClassic(IntPtr window)
-		{
-			MediaPlayerClassic = window;
-		}
+    public void InitializeConnectionToMediaPlayerClassic(IntPtr window)
+    {
+      MediaPlayerClassic = window;
+    }
 
-		public void Log(string message, params object[] args)
-		{
-			var @event = LogMessage;
-			if (@event != null)
-			{
-				@event(this, new MessageEventArgs(String.Format(message, args)));
-			}
-		}
+    public void Log(string message, params object[] args)
+    {
+      var @event = LogMessage;
+      if (@event != null)
+      {
+        @event(this, new MessageEventArgs(String.Format(message, args)));
+      }
+    }
 
-		void LoadSettings()
-		{
-			ApplicationSettings.Load();
+    void LoadSettings()
+    {
+      ApplicationSettings.Load();
 
-			_archivePathSelector = new RegexBasedArchivePathSelector(Settings.Default.DefaultArchivePath,
-			                                                         ApplicationSettings.ArchivePathOverrides);
-		}
+      _archivePathSelector = new RegexBasedArchivePathSelector(Settings.Default.DefaultArchivePath,
+                                                               ApplicationSettings.ArchivePathOverrides);
+    }
 
-	  void SetUpLirc()
-	  {
-	    var lircKeyHandlers = new ILircKeyHandler[]
-	    {
-	      new UpKeyHandler(),
-	      new ShiftKeyHandler(),
-	      new SleepKeyHandler(_archivePathSelector)
-	    };
+    IDisposable SetUpLirc()
+    {
+      var client = new LircClient(this, Settings.Default.LircServer, Settings.Default.LircPort);
 
-	    _lirc = new LircClient(this, Settings.Default.LircServer, Settings.Default.LircPort)
-	      .Subscribe(message =>
-	      {
-	        var handler = lircKeyHandlers.FirstOrDefault(x => x.CanHandle(message));
-	        if (handler != null)
-	        {
-	          handler.Handle(message, this);
-	        }
-	      });
-	  }
+      var lircKeyHandlers = new ILircKeyHandler[]
+      {
+        new UpKeyHandler(),
+        new ShiftKeyHandler(),
+        new SleepKeyHandler(_archivePathSelector)
+      };
 
-		void SetUpMessageExchange()
-		{
-			var messageHandlers = new IMessageHandler[]
-			                      {
-			                      	new ConnectHandler(),
-			                      	new NowPlayingMessageHandler(), 
-									new CurrentPositionHandler()
-			                      };
+      return new CompositeDisposable(lircKeyHandlers.Select(handler => handler.SetUp(client, this)));
+    }
 
-			_messageExchange = new MessageProcessingWindow(x => x.Msg == NativeConstants.WM_COPYDATA);
-			_messageExchange.MessageReceived += (s, e) =>
-				{
-					var handler = messageHandlers.FirstOrDefault(x => x.CanHandle(e.Message));
-					if (handler != null)
-					{
-						handler.Handle(e.Message, this);
-					}
-				};
-		}
+    void SetUpMessageExchange()
+    {
+      var messageHandlers = new IMessageHandler[]
+      {
+        new ConnectHandler(),
+        new NowPlayingMessageHandler(),
+        new CurrentPositionHandler()
+      };
 
-		protected override void OnMainFormClosed(object sender, EventArgs e)
-		{
-			if (_lirc != null)
-			{
-				_lirc.Dispose();
-			}
+      _messageExchange = new MessageProcessingWindow(x => x.Msg == NativeConstants.WM_COPYDATA);
+      _messageExchange.MessageReceived += (s, e) =>
+      {
+        var handler = messageHandlers.FirstOrDefault(x => x.CanHandle(e.Message));
+        if (handler != null)
+        {
+          handler.Handle(e.Message, this);
+        }
+      };
+    }
 
-			if (_messageExchange != null)
-			{
-				_messageExchange.Dispose();
-			}
+    protected override void OnMainFormClosed(object sender, EventArgs e)
+    {
+      if (_lirc != null)
+      {
+        _lirc.Dispose();
+      }
 
-			base.OnMainFormClosed(sender, e);
-		}
-	}
+      if (_messageExchange != null)
+      {
+        _messageExchange.Dispose();
+      }
+
+      base.OnMainFormClosed(sender, e);
+    }
+  }
 }

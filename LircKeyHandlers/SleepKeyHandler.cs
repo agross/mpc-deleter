@@ -1,30 +1,40 @@
+using System;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
+
 using MpcDeleter.Commands;
 
 namespace MpcDeleter.LircKeyHandlers
 {
-	internal class SleepKeyHandler : TimedKeyHandler, ILircKeyHandler
-	{
-		readonly IArchivePathSelector _archivePathSelector;
+  class SleepKeyHandler : ILircKeyHandler
+  {
+    public IDisposable SetUp(IObservable<string> source, IContext context)
+    {
+      return source
+        .Where(CanHandle)
+        .DelayBetweenValues(TimeSpan.FromSeconds(10),
+                            TaskPoolScheduler.Default,
+                            () => context.Log("You pressed the Sleep key in quick succession. " +
+                                              "This key press will be ignored."))
+        .Subscribe(x => Handle(context));
+    }
 
-		public SleepKeyHandler(IArchivePathSelector archivePathSelector)
-		{
-			_archivePathSelector = archivePathSelector;
-		}
+    readonly IArchivePathSelector _archivePathSelector;
 
-		protected override string KeyName
-		{
-			get { return "Sleep"; }
-		}
+    public SleepKeyHandler(IArchivePathSelector archivePathSelector)
+    {
+      _archivePathSelector = archivePathSelector;
+    }
 
-		public bool CanHandle(string message)
-		{
-			return message.Contains(" sleep ") || message.Contains(" ok ");
-		}
+    static bool CanHandle(string message)
+    {
+      return message.Contains(" sleep ") || message.Contains(" ok ");
+    }
 
-		protected override void HandleKey(IContext context)
-		{
-			context.Log("You pressed the Sleep key, will now attempt to archive the current file");
-			context.Execute(new ArchiveCurrentFileCommand(_archivePathSelector, false));
-		}
-	}
+    void Handle(IContext context)
+    {
+      context.Log("You pressed the Sleep key, will now attempt to archive the current file");
+      context.Execute(new ArchiveCurrentFileCommand(_archivePathSelector, false));
+    }
+  }
 }
