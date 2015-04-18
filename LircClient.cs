@@ -1,80 +1,58 @@
 using System;
+using System.IO;
 using System.Net.Sockets;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 
 namespace MpcDeleter
 {
-	public class LircClient : IDisposable
-	{
-		TcpClient _client;
-		NetworkStream _stream;
+  public class LircClient : IObservable<string>
+  {
+    readonly IObservable<string> _subscription;
 
-		public void Dispose()
-		{
-			if (_stream != null)
-			{
-				_stream.Close();
-			}
+    public LircClient(IContext context, string server, int port)
+    {
+      _subscription = ConnectAndWaitForData(server, port, context);
+    }
 
-			if (_client != null && _client.Connected)
-			{
-				_client.Close();
-			}
-		}
+    public IDisposable Subscribe(IObserver<string> observer)
+    {
+      return _subscription.Subscribe(observer);
+    }
 
-		public event EventHandler<MessageEventArgs> KeyPressed;
+    static IObservable<string> ConnectAndWaitForData(string server, int port, IContext context)
+    {
+      return Observable
+        .Using(() => new TcpClient(),
+               client =>
+               {
+                 var connectToServer = Observable.FromAsyncPattern<string, int>(client.BeginConnect, client.EndConnect);
 
-		public void Connect(IContext context, string server, int port)
-		{
-			try
-			{
-				_client = new TcpClient();
-				_client.Connect(server, port);
+                 return connectToServer(server, port)
+                   .Catch<Unit, Exception>(ex =>
+                   {
+                     context.Log("Error while communicating with LIRC: {0}", ex.Message);
+                     return Observable.Empty<Unit>();
+                   })
+                   .Do(_ => context.Log("Connected to LIRC server at {0}:{1}", server, port))
+                   .SelectMany(Observable.Using(client.GetStream, stream => ReadMessage(client, stream, context)));
+               })
+        .Publish()
+        .RefCount(); // Subscribe once for all subscribers.
+    }
 
-				context.Log("Connected to LIRC server at {0}:{1}", server, port);
+    static IObservable<string> ReadMessage(TcpClient client, Stream stream, IContext context)
+    {
+      var buffer = new byte[256];
+      var reader = Observable.FromAsyncPattern<byte[], int, int, int>(stream.BeginRead, stream.EndRead);
 
-				_stream = _client.GetStream();
-
-				var buffer = new byte[256];
-				AsyncCallback callback = Callback(context, buffer);
-				BeginRead(buffer, callback);
-			}
-			catch (Exception ex)
-			{
-				context.Log("Error while communicating with LIRC: {0}", ex.Message);
-			}
-		}
-
-		void BeginRead(byte[] buffer, AsyncCallback callback)
-		{
-			_stream.BeginRead(buffer,
-			                  0,
-			                  buffer.Length,
-			                  callback,
-			                  null);
-		}
-
-		AsyncCallback Callback(IContext context, byte[] buffer)
-		{
-			return asyncResult =>
-				{
-					if (!_stream.CanRead)
-					{
-						return;
-					}
-
-					var bytesRead = _stream.EndRead(asyncResult);
-					var message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-					context.Log("Received '{0}' from LIRC", message);
-
-					var @event = KeyPressed;
-					if (@event != null)
-					{
-						@event(this, new MessageEventArgs(message));
-					}
-
-					BeginRead(buffer, Callback(context, buffer));
-				};
-		}
-	}
+      return Observable
+        .While(() => client.Connected && stream.CanRead,
+               Observable.Defer(() => reader(buffer, 0, buffer.Length))
+                         .Where(bytesRead => bytesRead > 0)
+                         .Select(bytesRead => Encoding.ASCII.GetString(buffer, 0, bytesRead))
+                         .Do(x => context.Log("Received '{0}' from LIRC", x)));
+    }
+  }
 }

@@ -13,7 +13,7 @@ namespace MpcDeleter
 	{
 		readonly PlayerContext _player = new PlayerContext();
 		RegexBasedArchivePathSelector _archivePathSelector;
-		LircClient _lirc;
+		IDisposable _lirc;
 		MessageProcessingWindow _messageExchange;
 
 		public MpcDeleterApplicationContext()
@@ -75,26 +75,25 @@ namespace MpcDeleter
 			                                                         ApplicationSettings.ArchivePathOverrides);
 		}
 
-		void SetUpLirc()
-		{
-			var lircKeyHandlers = new ILircKeyHandler[]
-			                      {
-			                      	new UpKeyHandler(),
-			                      	new ShiftKeyHandler(),
-			                      	new SleepKeyHandler(_archivePathSelector)
-			                      };
+	  void SetUpLirc()
+	  {
+	    var lircKeyHandlers = new ILircKeyHandler[]
+	    {
+	      new UpKeyHandler(),
+	      new ShiftKeyHandler(),
+	      new SleepKeyHandler(_archivePathSelector)
+	    };
 
-			_lirc = new LircClient();
-			_lirc.KeyPressed += (s, e) =>
-				{
-					var handler = lircKeyHandlers.FirstOrDefault(x => x.CanHandle(e.Message));
-					if (handler != null)
-					{
-						handler.Handle(e.Message, this);
-					}
-				};
-			_lirc.Connect(this, Settings.Default.LircServer, Settings.Default.LircPort);
-		}
+	    _lirc = new LircClient(this, Settings.Default.LircServer, Settings.Default.LircPort)
+	      .Subscribe(message =>
+	      {
+	        var handler = lircKeyHandlers.FirstOrDefault(x => x.CanHandle(message));
+	        if (handler != null)
+	        {
+	          handler.Handle(message, this);
+	        }
+	      });
+	  }
 
 		void SetUpMessageExchange()
 		{
