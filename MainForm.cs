@@ -25,6 +25,8 @@ namespace MpcDeleter
 
       _pathSelector = pathSelector;
 
+      var uiThread = new SynchronizationContextScheduler(SynchronizationContext.Current);
+
       var subscriptions = new CompositeDisposable(
         RxMessageBrokerMinimod.Default.Register<Log>(m =>
         {
@@ -32,7 +34,12 @@ namespace MpcDeleter
 
           var addedIndex = lbxEvents.Items.Add(m.Message);
           lbxEvents.SelectedIndex = addedIndex;
-        }, new SynchronizationContextScheduler(SynchronizationContext.Current)));
+        }, uiThread),
+        RxMessageBrokerMinimod.Default.Register<CurrentFile>(m =>
+        {
+          lblCurrentFile.Text = m.FileName;
+          lblLength.Text = m.Length.ToString();
+        }, uiThread));
 
       components.Add(new Disposer(_ => subscriptions.Dispose()));
     }
@@ -65,7 +72,7 @@ namespace MpcDeleter
 
     void btnPlayPause_Click(object sender, EventArgs e)
     {
-      RxMessageBrokerMinimod.Default.Send(new PlayPauseCommand());
+      RxMessageBrokerMinimod.Default.Send(new PlayPause());
     }
 
     void btnDeleteCurrent_Click(object sender, EventArgs e)
@@ -80,7 +87,12 @@ namespace MpcDeleter
 
     void btnlFastForward10Percent_Click(object sender, EventArgs e)
     {
-      RxMessageBrokerMinimod.Default.Send(new FastForwardCommand(0.1));
+      RxMessageBrokerMinimod.Default.Send(new FastForward(0.1));
+    }
+
+    void btnNext_Click(object sender, EventArgs e)
+    {
+      RxMessageBrokerMinimod.Default.Send(new AdvanceToNextFile());
     }
   }
 }

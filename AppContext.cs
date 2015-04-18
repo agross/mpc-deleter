@@ -14,7 +14,7 @@ using MpcDeleter.Handlers.Mpc;
 using MpcDeleter.Messages;
 using MpcDeleter.Properties;
 
-using StartMpc = MpcDeleter.Handlers.Commands.StartMpc;
+using CurrentPosition = MpcDeleter.Handlers.Mpc.CurrentPosition;
 
 namespace MpcDeleter
 {
@@ -37,10 +37,11 @@ namespace MpcDeleter
         SetUpMessageExchange());
 
 
-      RxMessageBrokerMinimod.Default.Send(new Commands.StartMpc(Settings.Default.MpcPath));
+      RxMessageBrokerMinimod.Default.Send(new StartMpc(Settings.Default.MpcPath));
       MainForm.Show();
     }
 
+    // TODO
     public PlayerContext Player
     {
       get
@@ -49,26 +50,13 @@ namespace MpcDeleter
       }
     }
 
+    // TODO
     public void Execute(ICommand command)
     {
       RxMessageBrokerMinimod.Default.Send(command);
     }
 
-    public IntPtr MessageExchange
-    {
-      get
-      {
-        return IntPtr.Zero;
-      }
-    }
-
-    public IntPtr MediaPlayerClassic { get; private set; }
-
-    public void InitializeConnectionToMediaPlayerClassic(IntPtr window)
-    {
-      MediaPlayerClassic = window;
-    }
-
+    // TODO
     public void Log(string message, params object[] args)
     {
       RxMessageBrokerMinimod.Default.Send(new Log(message, args));
@@ -86,7 +74,10 @@ namespace MpcDeleter
     {
       var handlers = new ICommandHandler[]
       {
-        new StartMpc()
+        new StartMpcHandler(),
+        new SendMessageHandler(),
+        new AdvanceToNextFileHandler(),
+        new FastForwardHandler() 
       }
         .Select(x => x.SetUp(new EventLoopScheduler()));
 

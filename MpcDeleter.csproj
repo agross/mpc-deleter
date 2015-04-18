@@ -43,8 +43,11 @@
     <Compile Include="Disposer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Handlers\Commands\AdvanceToNextFileHandler.cs" />
+    <Compile Include="Handlers\Commands\FastForwardHandler.cs" />
     <Compile Include="Handlers\Commands\ICommandHandler.cs" />
-    <Compile Include="Handlers\Commands\StartMpc.cs" />
+    <Compile Include="Handlers\Commands\SendMessageHandler.cs" />
+    <Compile Include="Handlers\Commands\StartMpcHandler.cs" />
     <Compile Include="Handlers\LogMessagesAndCommands.cs" />
     <Compile Include="Messages\CurrentFile.cs" />
     <Compile Include="Messages\ReceiverCreated.cs" />
@@ -65,19 +68,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Commands\AddFileToPlaylistCommand.cs" />
     <Compile Include="Commands\ArchiveCurrentFileCommand.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\AutoLoadPlaylistCommand.cs" />
-    <Compile Include="Commands\ClearPlaylistCommand.cs" />
     <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
-    <Compile Include="Commands\FastForwardCommand.cs" />
+    <Compile Include="Commands\FastForward.cs" />
     <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\AdvanceToNextFileCommand.cs" />
-    <Compile Include="Commands\PlayPauseCommand.cs" />
+    <Compile Include="Commands\AdvanceToNextFile.cs" />
+    <Compile Include="Commands\PlayPause.cs" />
     <Compile Include="Commands\DeleteFileWithRetry.cs" />
-    <Compile Include="Commands\SendMessageCommand.cs" />
+    <Compile Include="Commands\SendMessage.cs" />
     <Compile Include="Commands\StartMpc.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IArchivePathSelector.cs" />
@@ -97,7 +97,7 @@
     </Compile>
     <Compile Include="MessageExtensions.cs" />
     <Compile Include="Messages\ConnectionEstablished.cs" />
-    <Compile Include="Messages\CurrentPositionChanged.cs" />
+    <Compile Include="Messages\CurrentPosition.cs" />
     <Compile Include="AppContext.cs" />
     <Compile Include="Handlers\Mpc\CurrentPosition.cs" />
     <Compile Include="RegexBasedArchivePathSelector.cs" />

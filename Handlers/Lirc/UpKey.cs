@@ -21,7 +21,7 @@ namespace MpcDeleter.Handlers.Lirc
 
     static void Handle()
     {
-      RxMessageBrokerMinimod.Default.Send(new FastForwardCommand(.1));
+      // TODO RxMessageBrokerMinimod.Default.Send(new FastForward(.1));
     }
   }
 }

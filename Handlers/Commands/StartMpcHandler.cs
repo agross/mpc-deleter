@@ -6,44 +6,45 @@ using System.Reactive.Linq;
 
 using Minimod.RxMessageBroker;
 
+using MpcDeleter.Commands;
 using MpcDeleter.Messages;
 
 namespace MpcDeleter.Handlers.Commands
 {
-  class StartMpc : ICommandHandler
+  class StartMpcHandler : ICommandHandler
   {
     class Params
     {
-      public Params(string path, IntPtr handle)
+      public Params(StartMpc start, ReceiverCreated receiver)
       {
-        Path = path;
-        Handle = handle;
+        Start = start;
+        Receiver = receiver;
       }
 
-      public string Path { get; set; }
-      public IntPtr Handle { get; set; }
+      public StartMpc Start { get; set; }
+      public ReceiverCreated Receiver { get; set; }
     }
 
     public IDisposable SetUp(IScheduler scheduler)
     {
       var stream = RxMessageBrokerMinimod.Default.Stream;
 
+      var start = stream.OfType<StartMpc>();
       var receiver = stream.OfType<ReceiverCreated>();
-      var start = stream.OfType<MpcDeleter.Commands.StartMpc>();
 
-      return receiver
-        .CombineLatest(start, (r, s) => new Params(s.Path, r.Handle))
+      return start
+        .CombineLatest(receiver, (s, r) => new Params(s, r))
         .ObserveOn(scheduler)
         .Subscribe(StartMpcInSlaveMode);
     }
 
-    static void StartMpcInSlaveMode(Params message)
+    static void StartMpcInSlaveMode(Params @params)
     {
       try
       {
-        var psi = new ProcessStartInfo(message.Path)
+        var psi = new ProcessStartInfo(@params.Start.Path)
         {
-          Arguments = string.Format(CultureInfo.InvariantCulture, "/slave {0}", message.Handle),
+          Arguments = string.Format(CultureInfo.InvariantCulture, "/slave {0}", @params.Receiver.Handle),
           ErrorDialog = true
         };
 

@@ -16,7 +16,7 @@ namespace MpcDeleter.Commands
 		{
 			var file = context.Player.CurrentFile;
 
-			context.Execute(new AdvanceToNextFileCommand());
+			//TODO context.Execute(new AdvanceToNextFileHandler());
 
 			DeleteFile(context, file);
 		}

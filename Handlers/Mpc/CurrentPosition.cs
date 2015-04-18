@@ -37,7 +37,7 @@ namespace MpcDeleter.Handlers.Mpc
       
       var roundedPosition = Convert.ToInt32(Math.Round(position));
 
-      RxMessageBrokerMinimod.Default.Send(new CurrentPositionChanged(roundedPosition));
+      RxMessageBrokerMinimod.Default.Send(new Messages.CurrentPosition(roundedPosition));
     }
   }
 }
