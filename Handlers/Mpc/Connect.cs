@@ -13,10 +13,10 @@ namespace MpcDeleter.Handlers.Mpc
   {
     public IDisposable SetUp(IObservable<Message> source)
     {
-      return source.Where(CanHandle).Subscribe(Handle);
+      return source.Where(Matches).Subscribe(Handle);
     }
 
-    static bool CanHandle(Message message)
+    static bool Matches(Message message)
     {
       return message.Matches(NativeConstants.CMD_CONNECT);
     }

@@ -14,8 +14,6 @@ using MpcDeleter.Handlers.Mpc;
 using MpcDeleter.Messages;
 using MpcDeleter.Properties;
 
-using CurrentPosition = MpcDeleter.Handlers.Mpc.CurrentPosition;
-
 namespace MpcDeleter
 {
   class AppContext : ApplicationContext, IContext
@@ -101,15 +99,14 @@ namespace MpcDeleter
 
     static IDisposable SetUpMessageExchange()
     {
-      var exchange = new MpcMessageReceiver();
+      var receiver = new MpcMessageReceiver();
 
       var handlers = new IMessageHandler[]
       {
         new Connect(),
-        new NowPlaying(),
-        new CurrentPosition()
+        new NowPlaying()
       }
-        .Select(x => x.SetUp(exchange));
+        .Select(x => x.SetUp(receiver));
 
       return new CompositeDisposable(handlers);
     }

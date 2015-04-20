@@ -11,17 +11,17 @@ namespace MpcDeleter.Handlers.Lirc
   {
     public IDisposable SetUp(IObservable<string> source)
     {
-      return source.Where(CanHandle).Subscribe(x => Handle());
+      return source.Where(Matches).Subscribe(x => Handle());
     }
 
-    static bool CanHandle(string message)
+    static bool Matches(string message)
     {
       return message.Contains(" up ");
     }
 
     static void Handle()
     {
-      // TODO RxMessageBrokerMinimod.Default.Send(new FastForward(.1));
+      RxMessageBrokerMinimod.Default.Send(new FastForward(.1));
     }
   }
 }

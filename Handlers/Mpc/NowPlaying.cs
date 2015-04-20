@@ -27,15 +27,19 @@ namespace MpcDeleter.Handlers.Mpc
 
     public IDisposable SetUp(IObservable<Message> source)
     {
-      return source.Where(CanHandle).Subscribe(Handle);
+      return source
+        .Where(Matches)
+        .Select(ToCurrentFile)
+        .DistinctUntilChanged()
+        .Subscribe(Publish);
     }
 
-    static bool CanHandle(Message message)
+    static bool Matches(Message message)
     {
       return message.Matches(NativeConstants.CMD_NOWPLAYING);
     }
 
-    static void Handle(Message message)
+    static CurrentFile ToCurrentFile(Message message)
     {
       var data = message.GetCopiedData();
 
@@ -48,7 +52,12 @@ namespace MpcDeleter.Handlers.Mpc
       var length = fileAndLength.Skip(4).First();
       var roundedLength = Convert.ToInt32(decimal.Parse(length, CultureInfo.InvariantCulture));
 
-      RxMessageBrokerMinimod.Default.Send(new CurrentFile(fileName, roundedLength));
+      return new CurrentFile(fileName, roundedLength);
+    }
+
+    static void Publish(CurrentFile message)
+    {
+      RxMessageBrokerMinimod.Default.Send(message);
     }
   }
 }

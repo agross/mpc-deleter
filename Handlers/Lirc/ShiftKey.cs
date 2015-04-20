@@ -14,7 +14,7 @@ namespace MpcDeleter.Handlers.Lirc
     public IDisposable SetUp(IObservable<string> source)
     {
       return source
-        .Where(CanHandle)
+        .Where(Matches)
         .DelayBetweenValues(TimeSpan.FromSeconds(10),
                             TaskPoolScheduler.Default,
                             () => RxMessageBrokerMinimod.Default.Send(new Log("You pressed the Sleep key in quick succession. " +
@@ -22,7 +22,7 @@ namespace MpcDeleter.Handlers.Lirc
         .Subscribe(x => Handle());
     }
 
-    static bool CanHandle(string message)
+    static bool Matches(string message)
     {
       return message.Contains(" shift ") || message.Contains(" guide ");
     }

@@ -46,6 +46,7 @@
     <Compile Include="Handlers\Commands\AdvanceToNextFileHandler.cs" />
     <Compile Include="Handlers\Commands\FastForwardHandler.cs" />
     <Compile Include="Handlers\Commands\ICommandHandler.cs" />
+    <Compile Include="Handlers\Commands\ObservableExtensions.cs" />
     <Compile Include="Handlers\Commands\SendMessageHandler.cs" />
     <Compile Include="Handlers\Commands\StartMpcHandler.cs" />
     <Compile Include="Handlers\LogMessagesAndCommands.cs" />
@@ -99,7 +100,6 @@
     <Compile Include="Messages\ConnectionEstablished.cs" />
     <Compile Include="Messages\CurrentPosition.cs" />
     <Compile Include="AppContext.cs" />
-    <Compile Include="Handlers\Mpc\CurrentPosition.cs" />
     <Compile Include="RegexBasedArchivePathSelector.cs" />
     <Compile Include="Handlers\Mpc\Connect.cs" />
     <Compile Include="Handlers\Mpc\IMessageHandler.cs" />

@@ -16,21 +16,31 @@ namespace MpcDeleter.Handlers.Commands
     {
       var bus = RxMessageBrokerMinimod.Default;
 
-      return AdvanceCurrentFile(bus.Stream)
+      return AdvanceToNextFile(bus.Stream)
         .ObserveOn(scheduler)
         .Subscribe(m => bus.Send(m));
     }
 
-    static IObservable<SendMessage> AdvanceCurrentFile(IObservable<object> stream)
+    static IObservable<SendMessage> AdvanceToNextFile(IObservable<object> stream)
     {
       var advance = stream.OfType<AdvanceToNextFile>();
       var file = stream.OfType<CurrentFile>();
 
-      var match = advance
-          .And(file)
-          .Then((command, f) => new SendMessage(NativeConstants.CMD_SETPOSITION, f.Length.ToString(CultureInfo.InvariantCulture)));
+      return file.CombineLatest(advance, (f, a) => new { File = f, Command = a })
+                 .DistinctUntilChanged(data => data.Command)
+                 .Select(x => new SendMessage(NativeConstants.CMD_SETPOSITION,
+                                              OneSecondBeforeEnd(x.File)));
+    }
 
-      return Observable.When(match);
+    static string OneSecondBeforeEnd(CurrentFile file)
+    {
+      var length = file.Length - 1;
+      if (length < 0)
+      {
+        length = 0;
+      }
+
+      return length.ToString(CultureInfo.InvariantCulture);
     }
   }
 }

@@ -74,11 +74,13 @@ namespace MpcDeleter.Handlers.Commands
           throw new Win32Exception(Marshal.GetLastWin32Error());
         }
 
-        RxMessageBrokerMinimod.Default.Send(new Log("Sent message to MPC"));
+        RxMessageBrokerMinimod.Default.Send(new Log("Sent message {0} to MPC", @params.Send.Info()));
       }
       catch (Exception ex)
       {
-        RxMessageBrokerMinimod.Default.Send(new Log("Failed to send message to MPC: {0}", ex.Message));
+        RxMessageBrokerMinimod.Default.Send(new Log("Failed to send message {0} to MPC: {1}",
+                                                    @params.Send.Info(),
+                                                    ex.Message));
       }
       finally
       {
