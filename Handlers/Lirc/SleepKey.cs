@@ -22,22 +22,14 @@ namespace MpcDeleter.Handlers.Lirc
         .Subscribe(x => Handle());
     }
 
-    readonly IArchivePathSelector _archivePathSelector;
-
-    // TODO move to handler
-    public SleepKey(IArchivePathSelector archivePathSelector)
-    {
-      _archivePathSelector = archivePathSelector;
-    }
-
     static bool Matches(string message)
     {
       return message.Contains(" sleep ") || message.Contains(" ok ");
     }
 
-    void Handle()
+    static void Handle()
     {
-      RxMessageBrokerMinimod.Default.Send(new ArchiveCurrentFileCommand(_archivePathSelector, false));
+      RxMessageBrokerMinimod.Default.Send(new ArchiveCurrentFile(false));
     }
   }
 }

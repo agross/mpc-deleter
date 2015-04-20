@@ -24,8 +24,8 @@ namespace MpcDeleter
 
     static void ActivateOtherInstance()
     {
-      NativeMethods.PostMessage((IntPtr) NativeMethods.HWND_BROADCAST,
-                                NativeMethods.WM_SHOWME,
+      NativeMethods.PostMessage((IntPtr) NativeConstants.HWND_BROADCAST,
+                                NativeConstants.WM_SHOWME,
                                 IntPtr.Zero,
                                 IntPtr.Zero);
     }

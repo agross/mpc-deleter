@@ -2,102 +2,88 @@ using System;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Threading;
 using System.Windows.Forms;
 
 using Minimod.RxMessageBroker;
 
+using MpcDeleter.Archiving;
 using MpcDeleter.Commands;
+using MpcDeleter.Forms;
 using MpcDeleter.Handlers;
 using MpcDeleter.Handlers.Commands;
 using MpcDeleter.Handlers.Lirc;
 using MpcDeleter.Handlers.Mpc;
-using MpcDeleter.Messages;
+using MpcDeleter.Lirc;
 using MpcDeleter.Properties;
 
 namespace MpcDeleter
 {
-  class AppContext : ApplicationContext, IContext
+  class AppContext : ApplicationContext
   {
-    readonly PlayerContext _player = new PlayerContext();
-    RegexBasedArchivePathSelector _archivePathSelector;
     readonly IDisposable _subscriptions;
 
     public AppContext()
     {
-      LoadSettings();
+      var archivePathSelector = LoadSettings();
 
-      MainForm = new MainForm(_archivePathSelector);
+      MainForm = new MainForm();
 
       _subscriptions = new CompositeDisposable(
         new LogMessagesAndCommands().SetUp(),
-        SetUpCommandHandlers(),
-        SetUpLirc(_archivePathSelector),
-        SetUpMessageExchange());
-
+        SetUpCommandHandlers(archivePathSelector),
+        SetUpLirc(),
+        SetUpMessageReceiver());
 
       RxMessageBrokerMinimod.Default.Send(new StartMpc(Settings.Default.MpcPath));
       MainForm.Show();
     }
 
-    // TODO
-    public PlayerContext Player
-    {
-      get
-      {
-        return _player;
-      }
-    }
-
-    // TODO
-    public void Execute(ICommand command)
-    {
-      RxMessageBrokerMinimod.Default.Send(command);
-    }
-
-    // TODO
-    public void Log(string message, params object[] args)
-    {
-      RxMessageBrokerMinimod.Default.Send(new Log(message, args));
-    }
-
-    void LoadSettings()
+    static IArchivePathSelector LoadSettings()
     {
       ApplicationSettings.Load();
 
-      _archivePathSelector = new RegexBasedArchivePathSelector(Settings.Default.DefaultArchivePath,
-                                                               ApplicationSettings.ArchivePathOverrides);
+      return new RegexBasedArchivePathSelector(Settings.Default.DefaultArchivePath,
+                                               ApplicationSettings.ArchivePathOverrides);
     }
 
-    static IDisposable SetUpCommandHandlers()
+    static IDisposable SetUpCommandHandlers(IArchivePathSelector archivePathSelector)
     {
       var handlers = new ICommandHandler[]
       {
         new StartMpcHandler(),
         new SendMessageHandler(),
         new AdvanceToNextFileHandler(),
-        new FastForwardHandler() 
+        new FastForwardHandler(),
+        new ArchiveCurrentFileHandler(archivePathSelector),
+        new DeleteCurrentFileHandler(), 
+        new DeleteFileHandler()
       }
-        .Select(x => x.SetUp(new EventLoopScheduler()));
+        .Select(x => x.SetUp(new EventLoopScheduler(ts => new Thread(ts)
+        {
+          Name = "Command Handler Thread",
+          IsBackground = true
+        })));
 
       return new CompositeDisposable(handlers);
     }
 
-    IDisposable SetUpLirc(IArchivePathSelector archivePathSelector)
+    static IDisposable SetUpLirc()
     {
-      var lirc = new LircClient(this, Settings.Default.LircServer, Settings.Default.LircPort);
+      var lirc = new LircClient(Settings.Default.LircServer, Settings.Default.LircPort);
 
       var handlers = new ILircKeyHandler[]
       {
         new UpKey(),
         new ShiftKey(),
-        new SleepKey(archivePathSelector)
+        new SleepKey()
       }
         .Select(x => x.SetUp(lirc));
 
       return new CompositeDisposable(handlers);
     }
 
-    static IDisposable SetUpMessageExchange()
+    static IDisposable SetUpMessageReceiver()
     {
       var receiver = new MpcMessageReceiver();
 

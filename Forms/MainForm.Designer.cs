@@ -1,4 +1,4 @@
-﻿namespace MpcDeleter
+﻿namespace MpcDeleter.Forms
 {
 	partial class MainForm
 	{

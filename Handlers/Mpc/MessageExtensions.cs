@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace MpcDeleter
+namespace MpcDeleter.Handlers.Mpc
 {
   static class MessageExtensions
   {

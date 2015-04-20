@@ -5,15 +5,19 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 
-namespace MpcDeleter
+using Minimod.RxMessageBroker;
+
+using MpcDeleter.Messages;
+
+namespace MpcDeleter.Lirc
 {
   class LircClient : IObservable<string>
   {
     readonly IObservable<string> _subscription;
 
-    public LircClient(IContext context, string server, int port)
+    public LircClient(string server, int port)
     {
-      _subscription = ConnectAndWaitForData(server, port, context);
+      _subscription = ConnectAndWaitForData(server, port);
     }
 
     public IDisposable Subscribe(IObserver<string> observer)
@@ -21,7 +25,7 @@ namespace MpcDeleter
       return _subscription.Subscribe(observer);
     }
 
-    static IObservable<string> ConnectAndWaitForData(string server, int port, IContext context)
+    static IObservable<string> ConnectAndWaitForData(string server, int port)
     {
       return Observable
         .Using(() => new TcpClient(),
@@ -32,17 +36,22 @@ namespace MpcDeleter
                  return connectToServer(server, port)
                    .Catch<Unit, Exception>(ex =>
                    {
-                     context.Log("Error while communicating with LIRC: {0}", ex.Message);
+                     RxMessageBrokerMinimod
+                       .Default
+                       .Send(new Log("Error while communicating with LIRC: {0}", ex.Message));
+
                      return Observable.Empty<Unit>();
                    })
-                   .Do(_ => context.Log("Connected to LIRC server at {0}:{1}", server, port))
-                   .SelectMany(Observable.Using(client.GetStream, stream => ReadMessage(client, stream, context)));
+                   .Do(_ => RxMessageBrokerMinimod
+                              .Default
+                              .Send(new Log("Connected to LIRC server at {0}:{1}", server, port)))
+                   .SelectMany(Observable.Using(client.GetStream, stream => ReadMessage(client, stream)));
                })
         .Publish()
         .RefCount(); // Subscribe once for all subscribers.
     }
 
-    static IObservable<string> ReadMessage(TcpClient client, Stream stream, IContext context)
+    static IObservable<string> ReadMessage(TcpClient client, Stream stream)
     {
       var buffer = new byte[256];
       var reader = Observable.FromAsyncPattern<byte[], int, int, int>(stream.BeginRead, stream.EndRead);
@@ -52,7 +61,9 @@ namespace MpcDeleter
                Observable.Defer(() => reader(buffer, 0, buffer.Length))
                          .Where(bytesRead => bytesRead > 0)
                          .Select(bytesRead => Encoding.ASCII.GetString(buffer, 0, bytesRead))
-                         .Do(x => context.Log("Received '{0}' from LIRC", x)));
+                         .Do(x => RxMessageBrokerMinimod
+                                    .Default
+                                    .Send(new Log("Received '{0}' from LIRC", x))));
     }
   }
 }

@@ -40,10 +40,16 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Disposer.cs">
+    <Compile Include="Archiving\IArchivePathSelector.cs" />
+    <Compile Include="Archiving\RegexBasedArchivePathSelector.cs" />
+    <Compile Include="Commands\DeleteFile.cs" />
+    <Compile Include="Forms\Disposer.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Handlers\Commands\AdvanceToNextFileHandler.cs" />
+    <Compile Include="Handlers\Commands\ArchiveCurrentFileHandler.cs" />
+    <Compile Include="Handlers\Commands\DeleteCurrentFileHandler.cs" />
+    <Compile Include="Handlers\Commands\DeleteFileHandler.cs" />
     <Compile Include="Handlers\Commands\FastForwardHandler.cs" />
     <Compile Include="Handlers\Commands\ICommandHandler.cs" />
     <Compile Include="Handlers\Commands\ObservableExtensions.cs" />
@@ -69,47 +75,40 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSettings.cs" />
-    <Compile Include="Commands\ArchiveCurrentFileCommand.cs">
+    <Compile Include="Commands\ArchiveCurrentFile.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\DeleteCurrentFileCommand.cs" />
+    <Compile Include="Commands\DeleteCurrentFile.cs" />
     <Compile Include="Commands\FastForward.cs" />
-    <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\AdvanceToNextFile.cs" />
     <Compile Include="Commands\PlayPause.cs" />
-    <Compile Include="Commands\DeleteFileWithRetry.cs" />
     <Compile Include="Commands\SendMessage.cs" />
     <Compile Include="Commands\StartMpc.cs" />
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="IArchivePathSelector.cs" />
-    <Compile Include="IContext.cs" />
-    <Compile Include="LircClient.cs" />
+    <Compile Include="Lirc\LircClient.cs" />
     <Compile Include="Handlers\Lirc\ObservableExtensions.cs" />
     <Compile Include="Handlers\Lirc\ILircKeyHandler.cs" />
     <Compile Include="Handlers\Lirc\ShiftKey.cs" />
     <Compile Include="Handlers\Lirc\SleepKey.cs" />
     <Compile Include="Handlers\Lirc\UpKey.cs" />
-    <Compile Include="MessageEventArgs.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageExtensions.cs" />
+    <Compile Include="Handlers\Mpc\MessageExtensions.cs" />
     <Compile Include="Messages\ConnectionEstablished.cs" />
     <Compile Include="Messages\CurrentPosition.cs" />
     <Compile Include="AppContext.cs" />
-    <Compile Include="RegexBasedArchivePathSelector.cs" />
     <Compile Include="Handlers\Mpc\Connect.cs" />
     <Compile Include="Handlers\Mpc\IMessageHandler.cs" />
     <Compile Include="Handlers\Mpc\NowPlaying.cs" />
     <Compile Include="NativeConstants.cs" />
     <Compile Include="NativeMethods.cs" />
-    <Compile Include="PlayerContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -122,7 +121,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="MpcMessageReceiver.cs" />
+    <Compile Include="Mpc\MpcMessageReceiver.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

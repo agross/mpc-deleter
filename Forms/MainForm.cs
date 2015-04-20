@@ -12,18 +12,14 @@ using MpcDeleter.Commands;
 using MpcDeleter.Messages;
 using MpcDeleter.Properties;
 
-namespace MpcDeleter
+namespace MpcDeleter.Forms
 {
   public partial class MainForm : Form
   {
-    readonly IArchivePathSelector _pathSelector;
-
-    public MainForm(IArchivePathSelector pathSelector)
+    public MainForm()
     {
       InitializeComponent();
       components = new NestedContainer(this);
-
-      _pathSelector = pathSelector;
 
       var uiThread = new SynchronizationContextScheduler(SynchronizationContext.Current);
 
@@ -46,7 +42,7 @@ namespace MpcDeleter
 
     protected override void WndProc(ref Message m)
     {
-      if (m.Msg == NativeMethods.WM_SHOWME)
+      if (m.Msg == NativeConstants.WM_SHOWME)
       {
         RestoreWindow();
       }
@@ -77,12 +73,12 @@ namespace MpcDeleter
 
     void btnDeleteCurrent_Click(object sender, EventArgs e)
     {
-      RxMessageBrokerMinimod.Default.Send(new DeleteCurrentFileCommand(chkWhatIf.Checked));
+      RxMessageBrokerMinimod.Default.Send(new DeleteCurrentFile(chkWhatIf.Checked));
     }
 
     void btnArchiveCurrent_Click(object sender, EventArgs e)
     {
-      RxMessageBrokerMinimod.Default.Send(new ArchiveCurrentFileCommand(_pathSelector, chkWhatIf.Checked));
+      RxMessageBrokerMinimod.Default.Send(new ArchiveCurrentFile(chkWhatIf.Checked));
     }
 
     void btnlFastForward10Percent_Click(object sender, EventArgs e)

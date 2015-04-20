@@ -29,7 +29,7 @@ namespace MpcDeleter.Handlers.Lirc
 
     static void Handle()
     {
-      RxMessageBrokerMinimod.Default.Send(new DeleteCurrentFileCommand(false));
+      RxMessageBrokerMinimod.Default.Send(new DeleteCurrentFile(false));
     }
   }
 }

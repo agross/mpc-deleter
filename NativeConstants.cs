@@ -7,14 +7,14 @@ namespace MpcDeleter
   static class NativeConstants
   {
     public const uint CMD_CONNECT = 0x50000000;
-
-    // Not implemented -- great!
-    // public const uint CMD_GETNOWPLAYING = 0xA0003002;
     public const uint CMD_NOWPLAYING = 0x50000003;
     public const uint CMD_PLAYPAUSE = 0xA0000003;
     public const uint CMD_SETPOSITION = 0xA0002000;
-    public const uint WM_COPYDATA = 0x004A;
     public const uint CMD_JUMPOFNSECONDS = 0xA0003005;
+
+    public static readonly int WM_SHOWME = NativeMethods.RegisterWindowMessage("WM_SHOWME");
+    public const uint WM_COPYDATA = 0x004A;
+    public const uint HWND_BROADCAST = 0xFFFF;
 
     public static string Lookup(uint message)
     {

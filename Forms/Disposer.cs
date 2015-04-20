@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace MpcDeleter
+namespace MpcDeleter.Forms
 {
   class Disposer : Component
   {
