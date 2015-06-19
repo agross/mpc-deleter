@@ -40,7 +40,7 @@ namespace MpcDeleter.Handlers.Commands
       var attempt = 0;
       while (true)
       {
-        if (StopTrying(attempt, 3))
+        if (StopTrying(attempt, 10))
         {
           bus.Send(new Log("Giving up deleting file {0} after {1} attempts", file, attempt));
           return;
