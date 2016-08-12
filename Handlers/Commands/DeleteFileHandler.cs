@@ -37,34 +37,29 @@ namespace MpcDeleter.Handlers.Commands
         return;
       }
 
-      var attempt = 0;
-      while (true)
+      if (StopTrying(command))
       {
-        if (StopTrying(attempt, 10))
-        {
-          bus.Send(new Log("Giving up deleting file {0} after {1} attempts", file, attempt));
-          return;
-        }
+        bus.Send(new Log("Giving up deleting file {0}", file));
+        return;
+      }
 
-        try
-        {
-          attempt++;
-          File.Delete(file);
+      try
+      {
+        File.Delete(file);
 
-          bus.Send(new Log("Deleted file {0}", file));
-          return;
-        }
-        catch (Exception ex)
-        {
-          bus.Send(new Log("Failed to delete file {0}, attempt {1}: {2}", file, attempt, ex.Message));
-          Thread.Sleep(TimeSpan.FromSeconds(1));
-        }
+        bus.Send(new Log("Deleted file {0}", file));
+      }
+      catch (Exception ex)
+      {
+        bus.Send(new Log("Failed to delete file {0}: {1}", file, ex.Message));
+        Thread.Sleep(TimeSpan.FromSeconds(1));
+        bus.Send(new DeleteFile(command.FileName, command.WhatIf, command.NumberOfTriesLeft - 1));
       }
     }
 
-    static bool StopTrying(int attempt, int maxAttempts)
+    static bool StopTrying(DeleteFile command)
     {
-      return attempt >= maxAttempts;
+      return command.NumberOfTriesLeft <= 0;
     }
   }
 }
