@@ -37,14 +37,23 @@ namespace MpcDeleter.Lirc
                            {
                              RxMessageBrokerMinimod
                                .Default
-                               .Send(new Log("Error while communicating with LIRC: {0}", ex.Message));
+                               .Send(new Log("Error establishing connection to LIRC: {0}", ex.Message));
 
-                             return Observable.Empty<Unit>();
+                             return RethrowAfterTimeout<Unit>(ex, TimeSpan.FromSeconds(5));
                            })
                            .Do(_ => RxMessageBrokerMinimod
                                       .Default
                                       .Send(new Log("Connected to LIRC server at {0}:{1}", server, port)))
                            .SelectMany(Observable.Using(client.GetStream, stream => ReadMessage(client, stream))))
+                           .Catch<string, Exception>(ex =>
+                           {
+                             RxMessageBrokerMinimod
+                               .Default
+                               .Send(new Log("Error while communicating with LIRC: {0}", ex.Message));
+
+                             return RethrowAfterTimeout<string>(ex, TimeSpan.FromSeconds(5));
+                           })
+        .Retry()
         .Publish()
         .RefCount(); // Subscribe once for all subscribers.
     }
@@ -56,11 +65,25 @@ namespace MpcDeleter.Lirc
       return Observable
         .While(() => client.Connected && stream.CanRead,
                Observable.Defer(() => stream.ReadAsync(buffer, 0, buffer.Length).ToObservable())
-                         .Where(bytesRead => bytesRead > 0)
-                         .Select(bytesRead => Encoding.ASCII.GetString(buffer, 0, bytesRead))
+                         .Select(bytesRead =>
+                         {
+                           if (bytesRead == 0)
+                           {
+                             throw new IOException("Connection reset, LIRC was probably terminated");
+                           }
+
+                           return Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                         })
                          .Do(x => RxMessageBrokerMinimod
                                     .Default
                                     .Send(new Log("Received '{0}' from LIRC", x))));
+    }
+
+    static IObservable<T> RethrowAfterTimeout<T>(Exception ex, TimeSpan timeout)
+    {
+      return Observable
+        .Timer(timeout)
+        .Select<long, T>(_ => { throw ex; });
     }
   }
 }
