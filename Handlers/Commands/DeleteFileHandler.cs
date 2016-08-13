@@ -52,7 +52,7 @@ namespace MpcDeleter.Handlers.Commands
       catch (Exception ex)
       {
         bus.Send(new Log("Failed to delete file {0}: {1}", file, ex.Message));
-        Thread.Sleep(TimeSpan.FromSeconds(1));
+        Thread.Sleep(TimeSpan.FromSeconds(5));
         bus.Send(new DeleteFile(command.FileName, command.WhatIf, command.NumberOfTriesLeft - 1));
       }
     }
