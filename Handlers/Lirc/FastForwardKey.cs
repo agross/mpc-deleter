@@ -7,7 +7,7 @@ using MpcDeleter.Commands;
 
 namespace MpcDeleter.Handlers.Lirc
 {
-  class UpKey : ILircKeyHandler
+  class FastForwardKey : ILircKeyHandler
   {
     public IDisposable SetUp(IObservable<string> source)
     {

@@ -90,9 +90,9 @@
     <Compile Include="Lirc\LircClient.cs" />
     <Compile Include="Handlers\Lirc\ObservableExtensions.cs" />
     <Compile Include="Handlers\Lirc\ILircKeyHandler.cs" />
-    <Compile Include="Handlers\Lirc\ShiftKey.cs" />
-    <Compile Include="Handlers\Lirc\SleepKey.cs" />
-    <Compile Include="Handlers\Lirc\UpKey.cs" />
+    <Compile Include="Handlers\Lirc\DeleteCurrentFileKey.cs" />
+    <Compile Include="Handlers\Lirc\ArchiveCurrentFileKey.cs" />
+    <Compile Include="Handlers\Lirc\FastForwardKey.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

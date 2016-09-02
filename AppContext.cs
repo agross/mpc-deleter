@@ -74,9 +74,9 @@ namespace MpcDeleter
 
       var handlers = new ILircKeyHandler[]
       {
-        new UpKey(),
-        new ShiftKey(),
-        new SleepKey()
+        new FastForwardKey(),
+        new DeleteCurrentFileKey(),
+        new ArchiveCurrentFileKey()
       }
         .Select(x => x.SetUp(lirc));
 
