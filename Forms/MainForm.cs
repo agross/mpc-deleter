@@ -28,7 +28,7 @@ namespace MpcDeleter.Forms
         {
           Debug.WriteLine(m.Message);
 
-          var addedIndex = lbxEvents.Items.Add(m.Message);
+          var addedIndex = lbxEvents.Items.Add($"{DateTime.Now}: {m.Message}");
           lbxEvents.SelectedIndex = addedIndex;
         }, uiThread),
         RxMessageBrokerMinimod.Default.Register<CurrentFile>(m =>
