@@ -1,5 +1,7 @@
 source https://www.nuget.org/api/v2
 
+framework: auto-detect
+
 nuget System.Reactive ~> 3.0
 nuget Minimod.RxMessageBroker
 nuget ILRepack
